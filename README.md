@@ -4,7 +4,7 @@ M5Stack using Smooth C++ library and Littlevgl Graphics library to display BME28
 ## Overview
 This application shows how to use the Smooth C++ library and the LittlevGL Graphichs library
 to display BME280 in three different views and a view to display the current date and time. 
-The app has three tasks running besides the mainn Application Task.  The details about the
+The app has three tasks running besides the main Application Task.  The details about the
 application memory usage, bin file size and versions of software used on this project are
 listed at the top of the App.cpp file.
 
@@ -12,7 +12,7 @@ listed at the top of the App.cpp file.
 The following views are displayed by this application.
 - Measurements View - displays numerical values of temp, humidity and pressure(sea level)
 - Temperature Gauge View - displays temperature value in a gauge and numerical values of humidity and pressure
-- Hourly Temp Log - display and hourly log of temperature over a 24 hour period
+- Hourly Temp Log - display an hourly log of temperature over a 24 hour period
 - Time and Date - displays the current time (MST) and current date
 
 ## A view
