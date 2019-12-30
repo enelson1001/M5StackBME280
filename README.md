@@ -9,7 +9,7 @@ application memory usage, bin file size and versions of software used on this pr
 listed at the top of the App.cpp file.
 
 ## Views
-The following views are dsiplayed by this application.
+The following views are displayed by this application.
 - Measurements View - displays numerical values of temp, humidity and pressure(sea level)
 - Temperature Gauge View - displays temperature value in a gauge and numerical values of humidity and pressure
 - Hourly Temp Log - display and hourly log of temperature over a 24 hour period
