@@ -28,7 +28,7 @@ when the hardware button is pressed or released.
 The app has 3 additional tasks running besides the Application Task. 
 - PollSensorTask - A task that periodically collects measurements(temperature, pressure, humidity) from the BME280.
 - LvglTask - A tasks that runs LittlevGL.  All files in gui folder are running under this task.
-- SntpTask - A task that runs SNTP.  Updates the local system time on Sntp TimeSyncEvents and publishes DateTimeValue.
+- SntpTask - A task that runs SNTP.  Updates the local system time on Sntp TimeSyncEvents and publishes TimeValue.
 
 ## Pictures of the various views
 The Measurements View
