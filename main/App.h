@@ -1,9 +1,6 @@
 /****************************************************************************************
  * App.h - The Application class
-<<<<<<< HEAD
  * 
-=======
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -22,11 +19,7 @@
 #include <smooth/core/Application.h>
 #include "sntp/SntpTask.h"
 #include "gui/LvglTask.h"
-<<<<<<< HEAD
 #include "model/PollSensorTask.h"
-=======
-#include "model/ScanSensorTask.h"
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
 
 namespace redstone
 {
@@ -41,11 +34,7 @@ namespace redstone
 
         private:
             LvglTask lvgl_task{};
-<<<<<<< HEAD
             PollSensorTask poll_sensor_task{};
-=======
-            ScanSensorTask scan_sensor_task{};
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
             SntpTask sntp_task;
     };
 }

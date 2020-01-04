@@ -22,7 +22,6 @@
 // Typical output on M5Stack
 //
 //  MemStat: Mem type |  8-bit free | Smallest block | Minimum free | 32-bit free | Smallest block | Minimum free
-<<<<<<< HEAD
 //  MemStat: INTERNAL |       79620 |          79008 |        52440 |      130464 |          79008 |       103276
 //  MemStat:      DMA |       79620 |          79008 |        52440 |       79620 |          79008 |        52440
 //  MemStat:   SPIRAM |           0 |              0 |            0 |           0 |              0 |            0
@@ -33,28 +32,12 @@
 //  MemStat:   PollSensorTask |       3300 |             468 |            2832
 //  MemStat: SocketDispatcher |      20480 |           18216 |            2264
 //  MemStat:         MainTask |      16384 |           12492 |            3892
-=======
-//  MemStat: INTERNAL |       79956 |          78316 |        64864 |      130800 |          78316 |       115700
-//  MemStat:      DMA |       79956 |          78316 |        64864 |       79956 |          78316 |        64864
-//  MemStat:   SPIRAM |           0 |              0 |            0 |           0 |              0 |            0
-//  MemStat:
-//  MemStat:             Name |      Stack |  Min free stack |  Max used stack
-//  MemStat:         LvglTask |       4096 |             560 |            3536
-//  MemStat:         SntpTask |       3200 |             836 |            2364
-//  MemStat:   ScanSensorTask |       3200 |             188 |            3012
-//  MemStat: SocketDispatcher |      20480 |           18216 |            2264
-//  MemStat:         MainTask |      16384 |           12524 |            3860
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
 //
 // Esp32-IDF version: v4.0-beta2
 // Toolchain version: xtensa-esp32-elf-gcc (crosstool-NG esp32-2019r1) 8.2.0
 // Lvgl version: v6.1 Tag: bd049d1a
 // Smooth version: master Tag: 24a828e1
-<<<<<<< HEAD
 // Bin file size: 1,245,968   ---- using malloc and free -> 1,245,696
-=======
-// Bin file size: 1,245,632
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
 //******************************************************************************************************************
 #include "App.h"
 #include <smooth/core/task_priorities.h>
@@ -81,11 +64,7 @@ namespace redstone
         Application::init();
         sntp_task.start();
         lvgl_task.start();
-<<<<<<< HEAD
         poll_sensor_task.start();
-=======
-        scan_sensor_task.start();
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
     }
 
     // Tick event happens every 10 seconds

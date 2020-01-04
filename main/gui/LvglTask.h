@@ -19,11 +19,7 @@
  ***************************************************************************************/
 #pragma once
 
-<<<<<<< HEAD
 #include "gui/ViewController.h"
-=======
-#include "gui/Bme280View.h"
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
 #include <smooth/core/Task.h>
 
 namespace redstone
@@ -38,10 +34,6 @@ namespace redstone
             void tick() override;
 
         private:
-<<<<<<< HEAD
             ViewController view_controller;
-=======
-            Bme280View bme280_view;
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
     };
 }
