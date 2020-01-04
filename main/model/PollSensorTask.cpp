@@ -53,7 +53,7 @@ namespace redstone
         Log::info(TAG, "BME280 intialization --- {}", bme280_initialized ? "Succeeded" : "Failed");
     }
 
-    // Initialize the I@C BME280 device
+    // Initialize the I2C BME280 device
     bool PollSensorTask::init_i2c_bme280()
     {
         bool res = false;

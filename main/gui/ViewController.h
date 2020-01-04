@@ -40,7 +40,7 @@ namespace redstone
             // Constructor
             ViewController(smooth::core::Task& task_lvgl);
 
-            /// Initialize the bme280 view
+            /// Initialize the view controller
             void init();
 
             /// Show the new view
