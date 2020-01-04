@@ -75,7 +75,7 @@ namespace redstone
         gauge_style.body.border.color = LV_COLOR_GREEN;     // Needle middle circle color
         gauge_style.line.width = 3;
         gauge_style.text.font = &lv_font_roboto_16;         // Gauge text font
-        gauge_style.text.color = LV_COLOR_WHITE;            // Guage text color
+        gauge_style.text.color = LV_COLOR_WHITE;            // Gauge text color
         gauge_style.line.color = LV_COLOR_BLACK;            // Line color
 
         // set the color of the needle
