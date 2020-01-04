@@ -14,10 +14,9 @@
  * Copyright (c) 2016 Gábor Kiss-Vámosi (https://github.com/littlevgl/lvgl)
  * Licensed under MIT License
  ***************************************************************************************/
-#include <smooth/core/logging/log.h>
 #include "gui/CPTimeAndDate.h"
 
-//using namespace smooth::core;
+#include <smooth/core/logging/log.h>
 using namespace smooth::core::logging;
 
 namespace redstone

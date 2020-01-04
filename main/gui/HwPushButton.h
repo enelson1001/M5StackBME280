@@ -1,9 +1,6 @@
 /****************************************************************************************
  * HwPushButton.h - A class that creates a hardware PUSHBUTTON
-<<<<<<< HEAD
  * 
-=======
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
