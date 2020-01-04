@@ -1,9 +1,5 @@
 /****************************************************************************************
- * App.h - The Application class
-<<<<<<< HEAD
- * 
-=======
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
+ * IContainer.h - An abstract class that some containers implement to be able to be
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -19,33 +15,17 @@
  ***************************************************************************************/
 #pragma once
 
-#include <smooth/core/Application.h>
-#include "sntp/SntpTask.h"
-#include "gui/LvglTask.h"
-<<<<<<< HEAD
-#include "model/PollSensorTask.h"
-=======
-#include "model/ScanSensorTask.h"
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
-
 namespace redstone
 {
-    class App : public smooth::core::Application
+    class IContainer
     {
         public:
-            App();
+            virtual ~IContainer() {};
 
-            void init() override;
+            virtual void show() = 0;
 
-            void tick() override;
+            virtual void hide() = 0;
 
-        private:
-            LvglTask lvgl_task{};
-<<<<<<< HEAD
-            PollSensorTask poll_sensor_task{};
-=======
-            ScanSensorTask scan_sensor_task{};
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
-            SntpTask sntp_task;
+            virtual void create(int width, int height) = 0;
     };
 }

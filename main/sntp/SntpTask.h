@@ -1,6 +1,10 @@
 /****************************************************************************************
+<<<<<<< HEAD
  * SntpTask.h - A task that runs periodically to update the local system time.
  *
+=======
+ * SntpTask.h - A task that runs periodically to retreive BME280 measurements.
+>>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -22,12 +26,20 @@
 #include <smooth/core/sntp/TimeSyncEvent.h>
 #include <smooth/core/ipc/IEventListener.h>
 #include <smooth/core/ipc/SubscribingTaskEventQueue.h>
+<<<<<<< HEAD
 #include "sntp/TimeValue.h"
+=======
+#include "sntp/DateTimeValue.h"
+>>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
 
 namespace redstone
 {
     class SntpTask : public smooth::core::Task,
+<<<<<<< HEAD
         public smooth::core::ipc::IEventListener<smooth::core::sntp::TimeSyncEvent>
+=======
+                     public smooth::core::ipc::IEventListener<smooth::core::sntp::TimeSyncEvent>
+>>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
     {
         public:
             SntpTask(smooth::core::Application& app);
@@ -44,8 +56,14 @@ namespace redstone
             smooth::core::Application& app;
             smooth::core::sntp::Sntp sntp;
             std::shared_ptr<TimeSyncQueue> sync_queue;
+<<<<<<< HEAD
             TimeValue time_value{};
             std::array<char, 32> char_buf;
             bool has_synced{ false };
+=======
+            DateTimeValue date_time_value{};
+            std::array<char, 32> char_buf;
+            bool has_synced{false};
+>>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
     };
 }

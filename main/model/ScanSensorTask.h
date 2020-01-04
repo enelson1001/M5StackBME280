@@ -1,9 +1,5 @@
 /****************************************************************************************
- * App.h - The Application class
-<<<<<<< HEAD
- * 
-=======
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
+ * ScanSensorTask.h - A task that runs periodically to retreive BME280 measurements.
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -19,33 +15,30 @@
  ***************************************************************************************/
 #pragma once
 
-#include <smooth/core/Application.h>
-#include "sntp/SntpTask.h"
-#include "gui/LvglTask.h"
-<<<<<<< HEAD
-#include "model/PollSensorTask.h"
-=======
-#include "model/ScanSensorTask.h"
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
+#include "Bme280Measurements.h"
+#include <smooth/core/Task.h>
+#include <smooth/core/ipc/IEventListener.h>
+#include <smooth/core/ipc/SubscribingTaskEventQueue.h>
+#include <smooth/core/io/i2c/Master.h>
+#include <smooth/application/io/i2c/BME280.h>
 
 namespace redstone
 {
-    class App : public smooth::core::Application
+    class ScanSensorTask : public smooth::core::Task
     {
         public:
-            App();
+            ScanSensorTask();
 
             void init() override;
 
             void tick() override;
 
         private:
-            LvglTask lvgl_task{};
-<<<<<<< HEAD
-            PollSensorTask poll_sensor_task{};
-=======
-            ScanSensorTask scan_sensor_task{};
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
-            SntpTask sntp_task;
+            bool init_i2c_bme280();
+            
+            smooth::core::io::i2c::Master i2c_master;
+            std::unique_ptr<smooth::application::sensor::BME280> thp_sensor{};
+            bool bme280_initialized{ false };
+            Bme280Measurements bme280_measurements {};
     };
 }
