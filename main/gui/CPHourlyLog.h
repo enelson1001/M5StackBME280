@@ -1,5 +1,6 @@
 /****************************************************************************************
- * ContentPane003.h - A content pane that displays a temperature chart
+ * CPHourlyLog.h - A content pane that displays a hourly temperature chart
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -19,9 +20,9 @@
 #include <memory>  // for shared pointer
 #include <smooth/core/ipc/IEventListener.h>
 #include <smooth/core/ipc/SubscribingTaskEventQueue.h>
-#include "gui/IContainer.h"
-#include "model/Bme280Measurements.h"
-#include "sntp/DateTimeValue.h"
+#include "gui/IPane.h"
+#include "model/EnvirValue.h"
+#include "sntp/TimeValue.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
@@ -30,14 +31,14 @@
 
 namespace redstone
 {
-    class ContentPane003 : public IContainer, 
-                           public smooth::core::ipc::IEventListener<Bme280Measurements>,
-                           public smooth::core::ipc::IEventListener<DateTimeValue>
+    class CPHourlyLog : public IPane, 
+                           public smooth::core::ipc::IEventListener<EnvirValue>,
+                           public smooth::core::ipc::IEventListener<TimeValue>
     {
         public:
             /// Constructor
             /// \param task_lvgl The task this class is running under
-            ContentPane003(smooth::core::Task& task_lvgl);
+            CPHourlyLog(smooth::core::Task& task_lvgl);
 
             /// Show the content pane
             void show() override;
@@ -50,11 +51,11 @@ namespace redstone
             /// \param height The height of the content pane
             void create(int width, int height) override;
 
-            /// The Bme280Measurements event that this instance listens for
-            void event(const Bme280Measurements& event) override;
+            /// The EnvirValue event that this instance listens for
+            void event(const EnvirValue& event) override;
 
             /// The time event that this instance listens for
-            void event(const DateTimeValue& ev) override;
+            void event(const TimeValue& ev) override;
 
 
         private:
@@ -65,11 +66,11 @@ namespace redstone
             void clear_chart();
 
             // Subscriber's queue's
-            using SubQBme280Measurements = smooth::core::ipc::SubscribingTaskEventQueue<Bme280Measurements>;
-            std::shared_ptr<SubQBme280Measurements> subr_queue_bme280_measurements;
+            using SubQEnvirValue = smooth::core::ipc::SubscribingTaskEventQueue<EnvirValue>;
+            std::shared_ptr<SubQEnvirValue> subr_queue_envir_value;
 
-            using SubQDateTimeValue = smooth::core::ipc::SubscribingTaskEventQueue<DateTimeValue>;
-            std::shared_ptr<SubQDateTimeValue> subr_queue_date_time_value;
+            using SubQTimeValue = smooth::core::ipc::SubscribingTaskEventQueue<TimeValue>;
+            std::shared_ptr<SubQTimeValue> subr_queue_time_value;
 
             lv_style_t content_container_style;
             lv_style_t temperature_chart_style;
@@ -80,6 +81,6 @@ namespace redstone
             lv_chart_series_t* temperature_ser;
 
             float temperature;
-            int current_hour{-1};
+            int16_t current_hour{-1};
     };
 }

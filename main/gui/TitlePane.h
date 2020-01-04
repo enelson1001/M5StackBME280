@@ -1,5 +1,6 @@
 /****************************************************************************************
- * TitleBar.h - A class that creates a simple title bar with a text heading
+ * TitlePane.h - A class that creates a simple title pane
+ * 
  * Created on Dec. 10, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -16,7 +17,7 @@
 #pragma once
 
 #include <string>
-#include "gui/IContainer.h"
+#include "gui/IPane.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
@@ -25,24 +26,22 @@
 
 namespace redstone
 {
-    class TitleBar : public IContainer
+    class TitlePane : public IPane
     {
         public:
-            TitleBar(std::string title);
+            TitlePane(std::string title);
 
-            ~TitleBar() {}
+            ~TitlePane() {}
 
-            /// Create a title bar
-            /// \param width The width of the title bar
-            /// \param height The height of the title bar
+            /// Create a title pane
+            /// \param width The width of the title pane
+            /// \param height The height of the title pane
             void create(int width, int height) override;
 
-            //void set_title(std::string title);
-
-            /// Show the title bar
+            /// Show the title pane
             void show() override;
 
-            /// Hide the title bar
+            /// Hide the title pane
             void hide() override;
 
         private:

@@ -1,5 +1,6 @@
 /****************************************************************************************
- * ContentPane004.cpp - A content pane that displays time and date
+ * CPTimeAndDate.cpp - A content pane that displays time and date
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -14,7 +15,7 @@
  * Licensed under MIT License
  ***************************************************************************************/
 #include <smooth/core/logging/log.h>
-#include "gui/ContentPane004.h"
+#include "gui/CPTimeAndDate.h"
 
 //using namespace smooth::core;
 using namespace smooth::core::logging;
@@ -22,11 +23,11 @@ using namespace smooth::core::logging;
 namespace redstone
 {
     // Class constants
-    static const char* TAG = "ContentPane004";
+    static const char* TAG = "CPTimeAndDate";
 
     // Constructor
-    ContentPane004::ContentPane004(smooth::core::Task& task_lvgl) :
-            subr_queue_date_time_value(SubQDateTimeValue::create(2, task_lvgl, *this))
+    CPTimeAndDate::CPTimeAndDate(smooth::core::Task& task_lvgl) :
+            subr_queue_time_value(SubQTimeValue::create(2, task_lvgl, *this))
 
             // Create Subscriber Queue (SubQ) so this content pane
             // can listen for DateTime events
@@ -37,9 +38,9 @@ namespace redstone
     }
 
     // Create the content pane for this view
-    void ContentPane004::create(int width, int height)
+    void CPTimeAndDate::create(int width, int height)
     {
-        Log::info(TAG, "Creating ContentPane004");
+        Log::info(TAG, "Creating CPTimeAndDate");
 
         // create style for the content container
         lv_style_copy(&content_container_style, &lv_style_plain);
@@ -66,8 +67,8 @@ namespace redstone
         lv_label_set_text(date_value_label, "");
     }
 
-    // The published event from DateTimeValue
-    void ContentPane004::event(const DateTimeValue& event)
+    // The published TimeValue event
+    void CPTimeAndDate::event(const TimeValue& event)
     {
         time = event.get_time();
         date = event.get_date();
@@ -75,7 +76,7 @@ namespace redstone
     }
 
     // Update the time and date texts
-    void ContentPane004::update_time_and_date()
+    void CPTimeAndDate::update_time_and_date()
     {
         // Update time value
         lv_label_set_text(time_value_label, time.c_str());
@@ -87,13 +88,13 @@ namespace redstone
     }
 
     // Show the content pane
-    void ContentPane004::show()
+    void CPTimeAndDate::show()
     {
         lv_obj_set_hidden(content_container, false);
     }
 
     // Hide the content pane
-    void ContentPane004::hide()
+    void CPTimeAndDate::hide()
     {
         lv_obj_set_hidden(content_container, true);
     }

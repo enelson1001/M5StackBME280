@@ -18,7 +18,7 @@
 namespace redstone
 {
     // Constructor
-    GuiButtonPrev::GuiButtonPrev(Bme280View& view) : bme280_view(view)
+    GuiButtonPrev::GuiButtonPrev(ViewController& view_ctrl) : view_controller(view_ctrl)
     {
     }
 
@@ -26,7 +26,7 @@ namespace redstone
     void GuiButtonPrev::on_clicked(lv_obj_t* btn)
     {
         //Log::info("PREV", "Previous - On-Cliked");
-        bme280_view.show_previous_view();
+        view_controller.show_previous_view();
     }
 
     // Create the PREV button

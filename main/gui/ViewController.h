@@ -1,5 +1,6 @@
 /****************************************************************************************
- * Bme280View.h - The BME280 view
+ * ViewController.h - Controls which view will be displayed on the M5Stack
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -18,13 +19,13 @@
 #include <memory>                   // for unique_ptr
 #include <unordered_map>
 #include <smooth/core/Task.h>
-#include "gui/LvDisplayDriver.h"
-#include "gui/MenuBar.h"
-#include "gui/IContainer.h"
+#include "gui/DisplayDriver.h"
+#include "gui/MenuPane.h"
+#include "gui/IPane.h"
 
 namespace redstone
 {
-    class Bme280View
+    class ViewController
     {
         public:
             // Constants & Enums
@@ -37,7 +38,7 @@ namespace redstone
             };
 
             // Constructor
-            Bme280View(smooth::core::Task& task_lvgl);
+            ViewController(smooth::core::Task& task_lvgl);
 
             /// Initialize the bme280 view
             void init();
@@ -56,14 +57,14 @@ namespace redstone
 
         private:
             smooth::core::Task& task_lvgl;
-            LvDisplayDriver lv_display_driver;
+            DisplayDriver display_driver;
 
-            std::unique_ptr<IContainer> content_pane;
-            std::unique_ptr<IContainer> title_bar;
-            MenuBar menu_bar{};
+            std::unique_ptr<IPane> content_pane;
+            std::unique_ptr<IPane> title_pane;
+            MenuPane menu_pane{};
 
-            std::unordered_map<ViewID, std::unique_ptr<IContainer>> content_panes;
-            std::unordered_map<ViewID, std::unique_ptr<IContainer>> title_bars;
+            std::unordered_map<ViewID, std::unique_ptr<IPane>> content_panes;
+            std::unordered_map<ViewID, std::unique_ptr<IPane>> title_panes;
             ViewID current_view_id{ HourlyLog };
             ViewID new_view_id{ HourlyLog };
     };

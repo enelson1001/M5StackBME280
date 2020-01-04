@@ -1,5 +1,6 @@
 /****************************************************************************************
  * GuiButton.h - A base class that GUI buttons implement
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)

@@ -1,5 +1,6 @@
 /****************************************************************************************
- * DateTimeValue.h - This class instance is published and received by subscribers
+ * TimeValue.h - This class instance is published and received by subscribers
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -17,15 +18,12 @@
 
 #include <string>
 
-//#include <smooth/core/logging/log.h>
-//using namespace smooth::core::logging;
-
 namespace redstone
 {
-    class DateTimeValue
+    class TimeValue
     {
         public:
-            DateTimeValue() {}
+            TimeValue() {}
 
             /// Get time string
             /// \param return Return the time in a string
@@ -57,7 +55,7 @@ namespace redstone
 
             /// Get the hour
             /// \param return Return a value of the hour.  The hour value is 0-23
-            int get_hour() const
+            int16_t get_hour() const
             {
                 return hour;
             }
@@ -71,7 +69,7 @@ namespace redstone
 
             /// Get the minute
             /// \param return Return the value of the minute.
-            int get_minute() const
+            int16_t get_minute() const
             {
                 return minute;
             }
@@ -85,7 +83,7 @@ namespace redstone
 
             /// Get the second
             /// \param return Return the value of the minute.
-            int get_second() const
+            int16_t get_second() const
             {
                 return minute;
             }
@@ -100,8 +98,8 @@ namespace redstone
         private:
             std::string str_time;
             std::string str_date;
-            int hour;
-            int minute;
-            int second;
+            int16_t hour;
+            int16_t minute;
+            int16_t second;
     };
 }

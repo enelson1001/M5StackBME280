@@ -1,6 +1,7 @@
 /****************************************************************************************
- * ContentPane002.cpp - A content pane that displays a temperature gauge and
+ * CPTempGauge.cpp - A content pane that displays a temperature gauge and
  *                      humidity and pressure values
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -16,7 +17,7 @@
  ***************************************************************************************/
 #include <sstream>
 #include <iomanip>  // for set precision
-#include "gui/ContentPane002.h"
+#include "gui/CPTempGauge.h"
 
 #include <smooth/core/logging/log.h>
 using namespace smooth::core::logging;
@@ -24,14 +25,14 @@ using namespace smooth::core::logging;
 namespace redstone
 {
     // Class constants
-    static const char* TAG = "ContentPane002";
+    static const char* TAG = "CPTempGauge";
 
     // Constructor
-    ContentPane002::ContentPane002(smooth::core::Task& task_lvgl) :
-            subr_queue_bme280_measurements(SubQBme280Measurements::create(2, task_lvgl, *this))
+    CPTempGauge::CPTempGauge(smooth::core::Task& task_lvgl) :
+            subr_queue_envir_value(SubQEnvirValue::create(2, task_lvgl, *this))
 
             // Create Subscriber Queue (SubQ) so this view can listen for
-            // Bme280Measurements events
+            // EnvirValue events
             // the queue will hold up to 2 items
             // the "task_lvgl" is this task which to signal when an event is available.
             // the "*this" is the class instance that will receive the events
@@ -39,9 +40,9 @@ namespace redstone
     }
 
     // Create the content pane for this view
-    void ContentPane002::create(int width, int height)
+    void CPTempGauge::create(int width, int height)
     {
-        Log::info(TAG, "Creating ContentPane002");
+        Log::info(TAG, "Creating CPTempGauge");
 
         // create style for the content container
         lv_style_copy(&content_container_style, &lv_style_plain);
@@ -104,8 +105,8 @@ namespace redstone
         lv_label_set_text(pressure_value_label, "");
     }
 
-    // The published event from Bme280Measurements
-    void ContentPane002::event(const Bme280Measurements& event)
+    // The published EnvirValue event
+    void CPTempGauge::event(const EnvirValue& event)
     {
         temperature = event.get_temperture_degree_F();
         humidty = event.get_relative_humidity();
@@ -113,8 +114,8 @@ namespace redstone
         update_temperature_humidity_pressure();
     }
 
-    // Update the measurement value labels
-    void ContentPane002::update_temperature_humidity_pressure()
+    // Update the environmental value labels
+    void CPTempGauge::update_temperature_humidity_pressure()
     {
         std::ostringstream stream;
 
@@ -140,13 +141,13 @@ namespace redstone
     }
 
     // Show the content pane
-    void ContentPane002::show()
+    void CPTempGauge::show()
     {
         lv_obj_set_hidden(content_container, false);
     }
 
     // Hide the content pane
-    void ContentPane002::hide()
+    void CPTempGauge::hide()
     {
         lv_obj_set_hidden(content_container, true);
     }

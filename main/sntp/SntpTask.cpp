@@ -1,5 +1,6 @@
 /****************************************************************************************
- * SntpTask.cpp - A task that runs periodically to retreive BME280 measurements.
+ * SntpTask.cpp - A task that runs periodically to update the local time system
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -72,25 +73,25 @@ namespace redstone
 
             std::strftime(char_buf.data(), char_buf.size(), "%I:%M %p", &time);
             std::string time_string(char_buf.data(), char_buf.size());
-            date_time_value.set_time(time_string);
+            time_value.set_time(time_string);
 
             std::strftime(char_buf.data(), char_buf.size(), "%A %d %Y", &time);
             std::string date_string(char_buf.data(), char_buf.size());
-            date_time_value.set_date(date_string);
+            time_value.set_date(date_string);
 
             std::strftime(char_buf.data(), char_buf.size(), "%H", &time);
             std::string hour_string(char_buf.data(), char_buf.size());
-            date_time_value.set_hour(hour_string);
+            time_value.set_hour(hour_string);
 
             std::strftime(char_buf.data(), char_buf.size(), "%M", &time);
             std::string minute_string(char_buf.data(), char_buf.size());
-            date_time_value.set_minute(minute_string);
+            time_value.set_minute(minute_string);
 
             std::strftime(char_buf.data(), char_buf.size(), "%S", &time);
             std::string second_string(char_buf.data(), char_buf.size());
-            date_time_value.set_second(second_string);
+            time_value.set_second(second_string);
 
-            Publisher<DateTimeValue>::publish(date_time_value);
+            Publisher<TimeValue>::publish(time_value);
         }
     }
 

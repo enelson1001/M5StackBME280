@@ -1,5 +1,6 @@
 /****************************************************************************************
- * MenuBar.h - A class that creates a menu bar
+ * MenuPane.h - A class that creates a menu pane that contains menu buttons
+ * 
  * Created on Dec. 07, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -13,7 +14,7 @@
  * Copyright (c) 2016 Gábor Kiss-Vámosi (https://github.com/littlevgl/lvgl)
  * Licensed under MIT License
  ***************************************************************************************/
-#include "gui/MenuBar.h"
+#include "gui/MenuPane.h"
 #include <smooth/core/logging/log.h>
 
 using namespace smooth::core::logging;
@@ -21,16 +22,16 @@ using namespace smooth::core::logging;
 namespace redstone
 {
     // Class constants
-    static const char* TAG = "MenuBar";
+    static const char* TAG = "MenuPane";
 
     // Constructor
-    MenuBar::MenuBar()
+    MenuPane::MenuPane()
     {
     }
 
     // Initialize the lv input device driver - handles button debounce and causes
     // gui button to display the pressed style when the hardware button is pressed
-    void MenuBar::initialize()
+    void MenuPane::initialize()
     {
         lv_indev_drv_init(&input_device_driver);
         input_device_driver.read_cb = button_read_cb;
@@ -41,11 +42,11 @@ namespace redstone
     }
 
     // Create the Menu Bar
-    void MenuBar::create(int width, int height)
+    void MenuPane::create(int width, int height)
     {
-        Log::info(TAG, "Creating the Menu Bar");
+        Log::info(TAG, "Creating the Menu Pane");
 
-        // create style for the menu bar container
+        // create style for the menu pane container
         lv_style_copy(&menu_style, &lv_style_plain);
         menu_style.body.main_color = lv_color_hex3(0x036);
         menu_style.body.grad_color = lv_color_hex3(0x036);
@@ -53,20 +54,20 @@ namespace redstone
         menu_style.text.color = LV_COLOR_WHITE;
 
         // create a container to hold the menu buttons
-        menu_bar_container = lv_cont_create(lv_scr_act(), NULL);
-        lv_obj_set_size(menu_bar_container, width, height);
-        lv_obj_set_size(menu_bar_container, 320, 40);
-        lv_cont_set_layout(menu_bar_container, LV_LAYOUT_OFF);
-        lv_obj_align(menu_bar_container, NULL, LV_ALIGN_IN_BOTTOM_MID, 0, 0);
-        lv_cont_set_style(menu_bar_container, LV_CONT_STYLE_MAIN, &menu_style);
-        lv_obj_set_hidden(menu_bar_container, true);
+        menu_pane_container = lv_cont_create(lv_scr_act(), NULL);
+        lv_obj_set_size(menu_pane_container, width, height);
+        lv_obj_set_size(menu_pane_container, 320, 40);
+        lv_cont_set_layout(menu_pane_container, LV_LAYOUT_OFF);
+        lv_obj_align(menu_pane_container, NULL, LV_ALIGN_IN_BOTTOM_MID, 0, 0);
+        lv_cont_set_style(menu_pane_container, LV_CONT_STYLE_MAIN, &menu_style);
+        lv_obj_set_hidden(menu_pane_container, true);
 
         // create left button
-        gui_buttons[LeftButtonID]->create(menu_bar_container);
+        gui_buttons[LeftButtonID]->create(menu_pane_container);
         gui_buttons[LeftButtonID]->align(NULL, LV_ALIGN_CENTER, -95, +5);
 
         // create right button
-        gui_buttons[RightButtonID]->create(menu_bar_container);
+        gui_buttons[RightButtonID]->create(menu_pane_container);
         gui_buttons[RightButtonID]->align(NULL, LV_ALIGN_CENTER, 95, +5);
 
         // add button locations on screen
@@ -78,14 +79,14 @@ namespace redstone
     // Pressing the hardware button cause the gui button to display being pressed and 
     // create an on-clicked event when the pressed harware button is released.  The 
     // debounce of the hardware button is handled in lv_indev_drv
-    void MenuBar::add_menu_button(BtnID id, std::unique_ptr<GuiButton> gui_btn, std::unique_ptr<HwPushButton> hw_btn)
+    void MenuPane::add_menu_button(BtnID id, std::unique_ptr<GuiButton> gui_btn, std::unique_ptr<HwPushButton> hw_btn)
     {
         gui_buttons[id] = std::move(gui_btn);
         hw_buttons[id] = std::move(hw_btn);
     }
 
     // Add screen location of a gui button to screen_locations_of_buttons array used by Lvgl input driver
-    void MenuBar::add_screen_location_of_button(int btn_id, lv_area_t btn_scr_coords)
+    void MenuPane::add_screen_location_of_button(int btn_id, lv_area_t btn_scr_coords)
     {
         lv_point_t scr_loc_of_btn = { get_mid_point(btn_scr_coords.x1, btn_scr_coords.x2),
                                       get_mid_point(btn_scr_coords.y1, btn_scr_coords.y2) };
@@ -94,13 +95,13 @@ namespace redstone
     }
 
     // Get the midpoint between to coordinates
-    lv_coord_t MenuBar::get_mid_point(lv_coord_t start_point, lv_coord_t end_point)
+    lv_coord_t MenuPane::get_mid_point(lv_coord_t start_point, lv_coord_t end_point)
     {
         return (end_point - start_point) / 2 + start_point;
     }
 
     // Read the hardware buttons and get id of button if pressed, used by Lvgl
-    int MenuBar::read_hardware_buttons()
+    int MenuPane::read_hardware_buttons()
     {
         for (auto const& x:hw_buttons)
         {
@@ -114,10 +115,10 @@ namespace redstone
     }
 
     // Button read callback for the Lvgl input driver
-    bool MenuBar::button_read_cb(lv_indev_drv_t* input_device_driver, lv_indev_data_t* data)
+    bool MenuPane::button_read_cb(lv_indev_drv_t* input_device_driver, lv_indev_data_t* data)
     {
         static int last_button = 0;
-        MenuBar* driver = static_cast<MenuBar*>(input_device_driver->user_data);
+        MenuPane* driver = static_cast<MenuPane*>(input_device_driver->user_data);
         int button_pressed = driver->read_hardware_buttons();
 
         if (button_pressed >= 0)
@@ -137,9 +138,15 @@ namespace redstone
         return false;
     }
 
-    // Show the menu bar
-    void MenuBar::show()
+    // Show the menu pane
+    void MenuPane::show()
     {
-        lv_obj_set_hidden(menu_bar_container, false);
+        lv_obj_set_hidden(menu_pane_container, false);
+    }
+
+    // Hide the menu pane
+    void MenuPane::hide()
+    {
+        lv_obj_set_hidden(menu_pane_container, true);
     }
 }

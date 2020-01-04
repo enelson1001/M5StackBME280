@@ -1,5 +1,6 @@
 /****************************************************************************************
- * ScanSensorTask.h - A task that runs periodically to retreive BME280 measurements.
+ * PollSensorTask.h - A task that runs periodically to poll the BME280 for measurements
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -15,7 +16,7 @@
  ***************************************************************************************/
 #pragma once
 
-#include "Bme280Measurements.h"
+#include "EnvirValue.h"
 #include <smooth/core/Task.h>
 #include <smooth/core/ipc/IEventListener.h>
 #include <smooth/core/ipc/SubscribingTaskEventQueue.h>
@@ -24,10 +25,10 @@
 
 namespace redstone
 {
-    class ScanSensorTask : public smooth::core::Task
+    class PollSensorTask : public smooth::core::Task
     {
         public:
-            ScanSensorTask();
+            PollSensorTask();
 
             void init() override;
 
@@ -39,6 +40,6 @@ namespace redstone
             smooth::core::io::i2c::Master i2c_master;
             std::unique_ptr<smooth::application::sensor::BME280> thp_sensor{};
             bool bme280_initialized{ false };
-            Bme280Measurements bme280_measurements {};
+            EnvirValue envir_value {};
     };
 }

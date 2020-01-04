@@ -1,5 +1,6 @@
 /****************************************************************************************
  * LvglTask.cpp - A dedicated task for running LittlevGL
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -14,7 +15,6 @@
  * Licensed under MIT License
  ***************************************************************************************/
 #include "gui/LvglTask.h"
-//#include <lv_conf.h>
 
 using namespace std::chrono;
 using namespace smooth::core;
@@ -33,7 +33,7 @@ namespace redstone
               // The priority is set to 10
               // The tick interval is 100ms
 
-              bme280_view(*this)
+              view_controller(*this)
     {
     }
 
@@ -41,7 +41,7 @@ namespace redstone
     void LvglTask::init()
     {
         Log::info(TAG, "initializing LvglTask");
-        bme280_view.init();
+        view_controller.init();
     }
 
     // The task tick event that happens every 100ms

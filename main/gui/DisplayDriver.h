@@ -1,5 +1,6 @@
 /****************************************************************************************
- * LvDisplayDriver.h - A LittlevGL Display Driver for ILI9341
+ * DisplayDriver.h - A LittlevGL Display Driver for ILI9341
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -25,11 +26,11 @@
 
 namespace redstone
 {
-    class LvDisplayDriver
+    class DisplayDriver
     {
         public:
             /// Constructor
-            LvDisplayDriver();
+            DisplayDriver();
 
             /// Initialize the Lvgl Display Driver
             bool initialize();

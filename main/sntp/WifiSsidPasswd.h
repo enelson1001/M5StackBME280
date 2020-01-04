@@ -1,5 +1,6 @@
 /****************************************************************************************
  * WifiSsidPasswd.h - Your wifi SSID and Password
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -16,5 +17,6 @@
 #pragma once
 
 
-#define WIFI_SSID "EdAndMary"
-#define WIFI_PASSWORD "livelybird309"
+#define WIFI_SSID "YOUR_SSID"
+#define WIFI_PASSWORD "YOUR_PASSWORD"
+

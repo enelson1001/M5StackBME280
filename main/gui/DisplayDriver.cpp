@@ -1,5 +1,6 @@
 /****************************************************************************************
- * LvDisplayDriver.h - A LittlevGL Display Driver for ILI9341
+ * DisplayDriver.h - A LittlevGL Display Driver for ILI9341
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -13,7 +14,7 @@
  * Copyright (c) 2016 Gábor Kiss-Vámosi (https://github.com/littlevgl/lvgl)
  * Licensed under MIT License
  ***************************************************************************************/
-#include "gui/LvDisplayDriver.h"
+#include "gui/DisplayDriver.h"
 #include <esp_freertos_hooks.h>
 #include <smooth/core/io/spi/SpiDmaFixedBuffer.h>
 #include <smooth/core/logging/log.h>
@@ -25,10 +26,10 @@ using namespace smooth::core::logging;
 namespace redstone
 {
     // Class Constants
-    static const char* TAG = "LvDisplayDriver";
+    static const char* TAG = "DisplayDriver";
 
     // Constructor
-    LvDisplayDriver::LvDisplayDriver() :
+    DisplayDriver::DisplayDriver() :
             spi_host(VSPI_HOST),            // Use VSPI as host
 
             spi_master(
@@ -42,9 +43,9 @@ namespace redstone
     }
 
     // Initialize the display driver
-    bool LvDisplayDriver::initialize()
+    bool DisplayDriver::initialize()
     {
-        Log::info(TAG, "Initializing Lv Display Driver ........");
+        Log::info(TAG, "Initializing Lvgl Display Driver ........");
 
         ili9341_initialized = init_ILI9341();
 
@@ -89,7 +90,7 @@ namespace redstone
     }
 
     // Initialize the ILI9341
-    bool LvDisplayDriver::init_ILI9341()
+    bool DisplayDriver::init_ILI9341()
     {
         auto device = spi_master.create_device<ILI9341>(
                         GPIO_NUM_14,            // chip select gpio pin
@@ -126,7 +127,7 @@ namespace redstone
     }
 
     // A class instance callback to flush the display buffer and thereby write colors to screen
-    void LvDisplayDriver::display_drv_flush(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t* color_map)
+    void DisplayDriver::display_drv_flush(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t* color_map)
     {
         uint32_t x1 = area->x1;
         uint32_t y1 = area->y1;
@@ -174,14 +175,14 @@ namespace redstone
     }
 
     // The "C" style callback required by LittlevGL
-    void IRAM_ATTR LvDisplayDriver::ili9341_flush_cb(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t* color_map)
+    void IRAM_ATTR DisplayDriver::ili9341_flush_cb(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t* color_map)
     {
-        LvDisplayDriver* driver = static_cast<LvDisplayDriver*>(drv->user_data);
+        DisplayDriver* driver = static_cast<DisplayDriver*>(drv->user_data);
         driver->display_drv_flush(drv, area, color_map);
     }
 
     // The  lv_tick_task that is required by LittlevGL for internal timing
-    void IRAM_ATTR LvDisplayDriver::lv_tick_task(void)
+    void IRAM_ATTR DisplayDriver::lv_tick_task(void)
     {
         lv_tick_inc(portTICK_RATE_MS);  // 1 ms tick_task
     }

@@ -1,5 +1,6 @@
 /****************************************************************************************
- * ContentPane001.h - A content pane that displays temperature humidity and pressure values
+ * CPMeasurements.h - A content pane that displays temperature humidity and pressure
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -18,8 +19,8 @@
 #include <memory>  // for shared pointer
 #include <smooth/core/ipc/IEventListener.h>
 #include <smooth/core/ipc/SubscribingTaskEventQueue.h>
-#include "gui/IContainer.h"
-#include "model/Bme280Measurements.h"
+#include "gui/IPane.h"
+#include "model/EnvirValue.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
@@ -28,12 +29,12 @@
 
 namespace redstone
 {
-    class ContentPane001 : public IContainer, public smooth::core::ipc::IEventListener<Bme280Measurements>
+    class CPMeasurements : public IPane, public smooth::core::ipc::IEventListener<EnvirValue>
     {
         public:
             /// Constructor
             /// \param task_lvgl The task this class is running under
-            ContentPane001(smooth::core::Task& task_lvgl);
+            CPMeasurements(smooth::core::Task& task_lvgl);
 
             /// Show the content pane
             void show() override;
@@ -46,16 +47,16 @@ namespace redstone
             /// \param height The height of the content pane
             void create(int width, int height) override;
 
-            /// The Bme280Measurements event that this instance listens for
-            void event(const Bme280Measurements& event) override;
+            /// The EnvirValue event that this instance listens for
+            void event(const EnvirValue& event) override;
 
         private:
-            /// Update the measurements text (ie temperature, humidity, pressure)
-            void update_measurements_text();
+            /// Update the environmental text (ie temperature, humidity, pressure)
+            void update_environmental_text();
 
             // Subscriber's queue's
-            using SubQBme280Measurements = smooth::core::ipc::SubscribingTaskEventQueue<Bme280Measurements>;
-            std::shared_ptr<SubQBme280Measurements> subr_queue_bme280_measurements;
+            using SubQEnvirValue = smooth::core::ipc::SubscribingTaskEventQueue<EnvirValue>;
+            std::shared_ptr<SubQEnvirValue> subr_queue_envir_value;
 
             lv_style_t content_container_style;
             lv_style_t measurement_container_style;

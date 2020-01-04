@@ -1,5 +1,6 @@
 /****************************************************************************************
- * SntpTask.h - A task that runs periodically to retreive BME280 measurements.
+ * SntpTask.h - A task that runs periodically to update the local system time.
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -21,12 +22,12 @@
 #include <smooth/core/sntp/TimeSyncEvent.h>
 #include <smooth/core/ipc/IEventListener.h>
 #include <smooth/core/ipc/SubscribingTaskEventQueue.h>
-#include "sntp/DateTimeValue.h"
+#include "sntp/TimeValue.h"
 
 namespace redstone
 {
     class SntpTask : public smooth::core::Task,
-                     public smooth::core::ipc::IEventListener<smooth::core::sntp::TimeSyncEvent>
+        public smooth::core::ipc::IEventListener<smooth::core::sntp::TimeSyncEvent>
     {
         public:
             SntpTask(smooth::core::Application& app);
@@ -43,8 +44,8 @@ namespace redstone
             smooth::core::Application& app;
             smooth::core::sntp::Sntp sntp;
             std::shared_ptr<TimeSyncQueue> sync_queue;
-            DateTimeValue date_time_value{};
+            TimeValue time_value{};
             std::array<char, 32> char_buf;
-            bool has_synced{false};
+            bool has_synced{ false };
     };
 }

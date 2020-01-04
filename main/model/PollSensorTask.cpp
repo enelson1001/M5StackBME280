@@ -1,5 +1,6 @@
 /****************************************************************************************
- * ScanSensorTask.cpp - A task that runs periodically to retreive BME280 measurements.
+ * PollSensorTask.cpp - A task that runs periodically to poll the BME280 for measurements
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -13,7 +14,7 @@
  * Copyright (c) 2016 Gábor Kiss-Vámosi (https://github.com/littlevgl/lvgl)
  * Licensed under MIT License
  ***************************************************************************************/
-#include "model/ScanSensorTask.h"
+#include "model/PollSensorTask.h"
 #include <smooth/core/ipc/Publisher.h>
 
 using namespace std::chrono;
@@ -24,13 +25,13 @@ using namespace smooth::application::sensor;
 namespace redstone
 {
     // Class constants
-    static const char* TAG = "ScanSensorTask";
+    static const char* TAG = "PollSensorTask";
 
     // Constructor
-    ScanSensorTask::ScanSensorTask() :
-            smooth::core::Task("ScanSensorTask", 3300, 10, milliseconds(2000)),
+    PollSensorTask::PollSensorTask() :
+            smooth::core::Task("PollSensorTask", 3300, 10, milliseconds(2000)),
 
-            // The Task Name = "ScanSensorTask"
+            // The Task Name = "PollSensorTask"
             // The stack size is 3200 bytes
             // The priority is set to 10
             // The tick interval is 2 sec
@@ -46,14 +47,14 @@ namespace redstone
     }
 
     // Initialize the Task
-    void ScanSensorTask::init()
+    void PollSensorTask::init()
     {
         bme280_initialized = init_i2c_bme280();
         Log::info(TAG, "BME280 intialization --- {}", bme280_initialized ? "Succeeded" : "Failed");
     }
 
     // Initialize the I@C BME280 device
-    bool ScanSensorTask::init_i2c_bme280()
+    bool PollSensorTask::init_i2c_bme280()
     {
         bool res = false;
         auto device = i2c_master.create_device<BME280>(0x76);   // BME280 i2c address
@@ -102,18 +103,18 @@ namespace redstone
 
 
     // The task tick event happens every 2 seconds
-    void ScanSensorTask::tick()
+    void PollSensorTask::tick()
     {
         if (bme280_initialized)
         {
             float temperature, humidity, pressure;
             thp_sensor->read_measurements(humidity, pressure, temperature);
 
-            bme280_measurements.set_temperture_degree_C(temperature);
-            bme280_measurements.set_relative_humidity(humidity);
-            bme280_measurements.set_pressure_hPa(pressure);
+            envir_value.set_temperture_degree_C(temperature);
+            envir_value.set_relative_humidity(humidity);
+            envir_value.set_pressure_hPa(pressure);
             
-            Publisher<Bme280Measurements>::publish(bme280_measurements);
+            Publisher<EnvirValue>::publish(envir_value);
         }
     }
 }

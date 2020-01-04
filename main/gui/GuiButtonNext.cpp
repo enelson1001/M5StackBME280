@@ -18,7 +18,7 @@
 namespace redstone
 {
     // Constructor
-    GuiButtonNext::GuiButtonNext(Bme280View& view) : bme280_view(view)
+    GuiButtonNext::GuiButtonNext(ViewController& view_ctrl) : view_controller(view_ctrl)
     {
     }
 
@@ -26,7 +26,7 @@ namespace redstone
     void GuiButtonNext::on_clicked(lv_obj_t* btn)
     {
         //Log::info("NEXT", "Next - On-Cliked");
-        bme280_view.show_next_view();
+        view_controller.show_next_view();
     }
 
     // Create the NEXT button

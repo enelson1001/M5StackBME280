@@ -1,5 +1,6 @@
 /****************************************************************************************
- * ContentPane003.cpp - A content pane that displays a temperature chart
+ * CPHourlyLog.cpp - A content pane that displays a hourly temperature chart
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -15,7 +16,7 @@
  ***************************************************************************************/
 #include <sstream>
 #include <iomanip>  // for set precision
-#include "gui/ContentPane003.h"
+#include "gui/CPHourlyLog.h"
 
 #include <smooth/core/logging/log.h>
 using namespace smooth::core::logging;
@@ -23,28 +24,32 @@ using namespace smooth::core::logging;
 namespace redstone
 {
     // Class constants
-    static const char* TAG = "ContentPane003";
+    static const char* TAG = "CPHourlyLog";
     static const char* TICKS_Y_AXIS = "60F\n65F\n70F\n75F\n80F";
     static const char* TICKS_X_AXIS = "12a\n4a\n8a\n12p\n4p\n8p\nhr";
 
     // Constructor
-    ContentPane003::ContentPane003(smooth::core::Task& task_lvgl) :
-            subr_queue_bme280_measurements(SubQBme280Measurements::create(2, task_lvgl, *this)),
-
+    CPHourlyLog::CPHourlyLog(smooth::core::Task& task_lvgl) :
+            subr_queue_envir_value(SubQEnvirValue::create(2, task_lvgl, *this)),
             // Create Subscriber Queue (SubQ) so this view can listen for
-            // Bme280Measurements events
+            // EnvirValue events
             // the queue will hold up to 2 items
             // the "task_lvgl" is this task which to signal when an event is available.
             // the "*this" is the class instance that will receive the events
 
-            subr_queue_date_time_value(SubQDateTimeValue::create(2, task_lvgl, *this))
+            subr_queue_time_value(SubQTimeValue::create(2, task_lvgl, *this))
+            // Create Subscriber Queue (SubQ) so this view can listen for
+            // TimeValue events
+            // the queue will hold up to 2 items
+            // the "task_lvgl" is this task which to signal when an event is available.
+            // the "*this" is the class instance that will receive the events
     {
     }
 
     // Create the content pane for this view
-    void ContentPane003::create(int width, int height)
+    void CPHourlyLog::create(int width, int height)
     {
-        Log::info(TAG, "Creating ContentPane003");
+        Log::info(TAG, "Creating CPHourlyLog");
 
         // create style for the content container
         lv_style_copy(&content_container_style, &lv_style_plain);
@@ -111,18 +116,18 @@ namespace redstone
         lv_chart_set_y_tick_texts(temperature_chart, TICKS_Y_AXIS, 5, LV_CHART_AXIS_DRAW_LAST_TICK | LV_CHART_AXIS_INVERSE_LABELS_ORDER);
     }
 
-    // A published Bne280Measuremnets event
-    void ContentPane003::event(const Bme280Measurements& event)
+    // A published EnvirValue event
+    void CPHourlyLog::event(const EnvirValue& event)
     {
         temperature = event.get_temperture_degree_F();
     }
 
-    // A published DateTimeValue event
-    void ContentPane003::event(const DateTimeValue& ev)
+    // A published TimeValue event
+    void CPHourlyLog::event(const TimeValue& event)
     {
-        int hour = ev.get_hour();
-        int minute = ev.get_minute();
-        int second = ev.get_second();
+        int16_t hour = event.get_hour();
+        int16_t minute = event.get_minute();
+        int16_t second = event.get_second();
 
         if ( (hour == 23) && (minute == 59) && (second >= 55))
         {
@@ -137,7 +142,7 @@ namespace redstone
     }
 
     // Update the chart
-    void ContentPane003::update_chart()
+    void CPHourlyLog::update_chart()
     {
         int temp = static_cast<int16_t>(temperature);
         temperature_ser->points[static_cast<lv_coord_t>(current_hour)] = temp;
@@ -145,19 +150,19 @@ namespace redstone
     }
 
     // Clear the chart
-    void ContentPane003::clear_chart()
+    void CPHourlyLog::clear_chart()
     {
         lv_chart_clear_serie(temperature_chart, temperature_ser);
     }
 
     // Show the content pane
-    void ContentPane003::show()
+    void CPHourlyLog::show()
     {
         lv_obj_set_hidden(content_container, false);
     }
 
     // Hide the content pane
-    void ContentPane003::hide()
+    void CPHourlyLog::hide()
     {
         lv_obj_set_hidden(content_container, true);
     }

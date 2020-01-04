@@ -1,5 +1,6 @@
 /****************************************************************************************
- * TitleBar.cpp - A class that creates a simple title bar with a text heading
+ * TitlePane.cpp - A class that creates a simple title pane
+ * 
  * Created on Dec. 10, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -13,7 +14,7 @@
  * Copyright (c) 2016 Gábor Kiss-Vámosi (https://github.com/littlevgl/lvgl)
  * Licensed under MIT License
  ***************************************************************************************/
-#include "gui/TitleBar.h"
+#include "gui/TitlePane.h"
 #include <smooth/core/logging/log.h>
 
 using namespace smooth::core::logging;
@@ -21,26 +22,26 @@ using namespace smooth::core::logging;
 namespace redstone
 {
     // Class constants
-    static const char* TAG = "TitleBar";
+    static const char* TAG = "TitlePane";
 
     // Constructor
-    TitleBar::TitleBar(std::string title) : title(title)
+    TitlePane::TitlePane(std::string title) : title(title)
     {
     }
 
-    // Create the Title Bar
-    void TitleBar::create(int width, int height)
+    // Create the Title Pane
+    void TitlePane::create(int width, int height)
     {
-        Log::info(TAG, "Creating the Title Bar");
+        Log::info(TAG, "Creating the Title Pane");
 
-        // create style for the title bar
+        // create style for the titlepain
         lv_style_copy(&title_style, &lv_style_plain);
         title_style.body.main_color = lv_color_hex3(0x036);
         title_style.body.grad_color = lv_color_hex3(0x036);
         title_style.text.font = &lv_font_roboto_22;
         title_style.text.color = LV_COLOR_WHITE;
 
-        // create container for title bar
+        // create container for title pane
         title_container = lv_cont_create(lv_scr_act(), NULL);
         lv_obj_set_size(title_container, width, height);
         lv_cont_set_layout(title_container, LV_LAYOUT_CENTER);
@@ -55,14 +56,14 @@ namespace redstone
         lv_obj_align(title_label, NULL, LV_ALIGN_CENTER, 0, 0);
     }
 
-    // Show the title bar
-    void TitleBar::show()
+    // Show the title pane
+    void TitlePane::show()
     {
         lv_obj_set_hidden(title_container, false);
     }
 
-    // Hide the title bar
-    void TitleBar::hide()
+    // Hide the title pane
+    void TitlePane::hide()
     {
         lv_obj_set_hidden(title_container, true);
     }

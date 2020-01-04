@@ -1,5 +1,7 @@
 /****************************************************************************************
- * Bme280Measurements.h - This class instance is published and received by subscribers
+ * EnvirValue.h - This class instance is published and received by subscribers for
+ *                environmental data
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -20,10 +22,10 @@
 
 namespace redstone
 {
-    class Bme280Measurements
+    class EnvirValue
     {
         public:
-            Bme280Measurements() {}
+            EnvirValue() {}
 
             /// Get the temperature in degree fahrenheit
             /// \param return Return the temperature in degree farenheit

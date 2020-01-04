@@ -1,5 +1,6 @@
 /****************************************************************************************
- * MenuBar.h - A class that creates menu bar
+ * MenuPane.h - A class that creates menu pane that contains menu buttons
+ * 
  * Created on Dec. 07, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -18,6 +19,7 @@
 #include <array>
 #include <map>
 #include <memory>               // for unique_ptr
+#include "gui/IPane.h"
 #include "gui/GuiButton.h"
 #include "gui/HwPushButton.h"
 
@@ -28,7 +30,7 @@
 
 namespace redstone
 {
-    class MenuBar
+    class MenuPane : public IPane
     {
         public:
             // Constants & Enums
@@ -43,7 +45,7 @@ namespace redstone
             static int constexpr NoButtonPressed = -1;
 
             /// Constructor
-            MenuBar();
+            MenuPane();
 
             /// Initialize the LV Input Device Driver
             void initialize();
@@ -53,10 +55,13 @@ namespace redstone
             /// \param width The width of the menu bar
             /// \param height The height of the menu bar
             //void create(lv_obj_t* parent, int width, int height);
-            void create(int width, int height);
+            void create(int width, int height) override;
 
-            /// Show the menu bar
-            void show();
+            /// Show the menu pane
+            void show() override;
+
+            /// Hide the menu pane
+            void hide() override;
 
             /// Add a hw button
             /// \param btn_id The menu button id
@@ -87,7 +92,7 @@ namespace redstone
             lv_indev_drv_t input_device_driver;
             lv_indev_t* input_device_button;
             lv_style_t menu_style;
-            lv_obj_t* menu_bar_container;
+            lv_obj_t* menu_pane_container;
 
             std::map<int, std::unique_ptr<HwPushButton>> hw_buttons;
             std::map<int, std::unique_ptr<GuiButton>> gui_buttons;

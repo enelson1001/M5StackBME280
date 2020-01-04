@@ -1,5 +1,6 @@
 /****************************************************************************************
  * App.cpp - The Application class
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -25,7 +26,7 @@
 //  MemStat:             Name |      Stack |  Min free stack |  Max used stack
 //  MemStat:         LvglTask |       4096 |             572 |            3524
 //  MemStat:         SntpTask |       3200 |             772 |            2428
-//  MemStat:   ScanSensorTask |       3300 |             468 |            2832
+//  MemStat:   PollSensorTask |       3300 |             468 |            2832
 //  MemStat: SocketDispatcher |      20480 |           18216 |            2264
 //  MemStat:         MainTask |      16384 |           12492 |            3892
 //
@@ -33,7 +34,7 @@
 // Toolchain version: xtensa-esp32-elf-gcc (crosstool-NG esp32-2019r1) 8.2.0
 // Lvgl version: v6.1 Tag: bd049d1a
 // Smooth version: master Tag: 24a828e1
-// Bin file size: 1,245,712
+// Bin file size: 1,245,968   ---- using malloc and free -> 1,245,696
 //******************************************************************************************************************
 #include "App.h"
 #include <smooth/core/task_priorities.h>
@@ -60,7 +61,7 @@ namespace redstone
         Application::init();
         sntp_task.start();
         lvgl_task.start();
-        scan_sensor_task.start();
+        poll_sensor_task.start();
     }
 
     // Tick event happens every 10 seconds

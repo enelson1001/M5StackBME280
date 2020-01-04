@@ -7,11 +7,11 @@ set(SOURCES
         gui/LvglTask.cpp
         gui/LvglTask.h
 
-        gui/Bme280View.cpp
-        gui/Bme280View.h
+        gui/ViewController.cpp
+        gui/ViewController.h
 
-        gui/LvDisplayDriver.cpp
-        gui/LvDisplayDriver.h
+        gui/DisplayDriver.cpp
+        gui/DisplayDriver.h
 
         gui/GuiButton.cpp
         gui/GuiButton.h
@@ -21,29 +21,29 @@ set(SOURCES
         gui/GuiButtonNext.h
         gui/HwPushButton.h
 
-        gui/TitleBar.cpp
-        gui/TitleBar.h
+        gui/TitlePane.cpp
+        gui/TitlePane.h
 
-        gui/MenuBar.cpp
-        gui/MenuBar.h
+        gui/MenuPane.cpp
+        gui/MenuPane.h
 
-        gui/IContainer.h
-        gui/ContentPane001.cpp
-        gui/ContentPane001.h
-        gui/ContentPane002.cpp
-        gui/ContentPane002.h
-        gui/ContentPane003.cpp
-        gui/ContentPane003.h
-        gui/ContentPane004.cpp
-        gui/ContentPane004.h
+        gui/IPane.h
+        gui/CPMeasurements.cpp
+        gui/CPMeasurements.h
+        gui/CPTempGauge.cpp
+        gui/CPTempGauge.h
+        gui/CPHourlyLog.cpp
+        gui/CPHourlyLog.h
+        gui/CPTimeAndDate.cpp
+        gui/CPTimeAndDate.h
 
         sntp/WifiSsidPasswd.h
         sntp/SntpTask.cpp
         sntp/SntpTask.h
-        sntp/DateTimeValue.h
+        sntp/TimeValue.h
         
-        model/ScanSensorTask.cpp
-        model/ScanSensorTask.h
-        model/Bme280Measurements.h
+        model/PollSensorTask.cpp
+        model/PollSensorTask.h
+        model/EnvirValue.h
         )
 

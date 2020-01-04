@@ -1,5 +1,6 @@
 /****************************************************************************************
  * LvglTask.h - A dedicated task for running LittlevGL
+ * 
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -15,7 +16,7 @@
  ***************************************************************************************/
 #pragma once
 
-#include "gui/Bme280View.h"
+#include "gui/ViewController.h"
 #include <smooth/core/Task.h>
 
 namespace redstone
@@ -30,6 +31,6 @@ namespace redstone
             void tick() override;
 
         private:
-            Bme280View bme280_view;
+            ViewController view_controller;
     };
 }

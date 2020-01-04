@@ -16,7 +16,7 @@
 #pragma once
 
 #include "gui/GuiButton.h"
-#include "gui/Bme280View.h"
+#include "gui/ViewController.h"
 
 namespace redstone
 {
@@ -24,8 +24,8 @@ namespace redstone
     {
         public:
             /// Constructor
-            /// \param view_renderer The class that will render the view
-            GuiButtonNext(Bme280View& view);
+            /// \param views The class that handles the views
+            GuiButtonNext(ViewController& view_ctrl);
 
             /// On-Clicked event
             /// \param btn The button object that caused the on-clicked event
@@ -36,7 +36,7 @@ namespace redstone
             virtual lv_obj_t* create(lv_obj_t* parent) override;
 
         private:
-            Bme280View& bme280_view;
+            ViewController& view_controller;
             lv_style_t gui_btn_style;
     };
 }

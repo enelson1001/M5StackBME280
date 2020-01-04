@@ -36,3 +36,4 @@ build
 cmake-build-*
 sdkconfig.old
 uncrustify.cfg
+main/sntp/WifiSsidPasswd.h
