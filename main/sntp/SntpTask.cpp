@@ -75,7 +75,7 @@ namespace redstone
             std::string time_string(char_buf.data(), char_buf.size());
             time_value.set_time(time_string);
 
-            std::strftime(char_buf.data(), char_buf.size(), "%A %d %Y", &time);
+            std::strftime(char_buf.data(), char_buf.size(), "%a, %d %b %Y", &time);
             std::string date_string(char_buf.data(), char_buf.size());
             time_value.set_date(date_string);
 

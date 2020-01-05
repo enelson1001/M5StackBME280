@@ -79,7 +79,8 @@ namespace redstone
 
         // The x-axis of 219 = 2*2px (border) + 23*1px (23 inside tick marks) + 24*8px (24 spaces between tick marks, space = 8px)
         // The y-axis of 103 = 2*2px (border) + 19*1px (19 inside tick marks) + 20*4px (20 spaces between tick marks, space = 4px)
-        lv_obj_set_size(temperature_chart, 219, 102);
+        // Even though size calculates out to be width=219 and height=103 you need to set size to 217,101 else points are off by 1px
+        lv_obj_set_size(temperature_chart, 217, 101);
 
         // Offset chart to fit content pane better
         lv_obj_align(temperature_chart, NULL, LV_ALIGN_CENTER, 20, -10);
@@ -144,7 +145,7 @@ namespace redstone
     // Update the chart
     void CPHourlyLog::update_chart()
     {
-        int temp = static_cast<int16_t>(temperature);
+        int16_t temp = static_cast<int16_t>(temperature);
         temperature_ser->points[static_cast<lv_coord_t>(current_hour)] = temp;
         lv_chart_refresh(temperature_chart);
     }

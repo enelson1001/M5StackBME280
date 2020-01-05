@@ -111,11 +111,7 @@ typedef int16_t lv_coord_t;
  * Can be changed in the Input device driver (`lv_indev_drv_t`)*/
 
 /* Input device read period in milliseconds */
-<<<<<<< HEAD
-#define LV_INDEV_DEF_READ_PERIOD          100// was 30
-=======
-#define LV_INDEV_DEF_READ_PERIOD          100//30
->>>>>>> cdaf9695e0182962cfecd6d15f73a70dcc143e78
+#define LV_INDEV_DEF_READ_PERIOD          100  // was 30
 
 /* Drag threshold in pixels */
 #define LV_INDEV_DEF_DRAG_LIMIT           10

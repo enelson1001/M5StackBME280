@@ -32,9 +32,9 @@
 //
 // Esp32-IDF version: v4.0-beta2
 // Toolchain version: xtensa-esp32-elf-gcc (crosstool-NG esp32-2019r1) 8.2.0
-// Lvgl version: v6.1 Tag: bd049d1a
-// Smooth version: master Tag: 24a828e1
-// Bin file size: 1,245,968   ---- lv_conf.h using malloc and free -> 1,245,696
+// Lvgl version: v6.1.1-39-g7d25f66
+// Smooth version: master SHA1: 24a828e1
+// Bin file size: 1,245,728
 //******************************************************************************************************************
 #include "App.h"
 #include <smooth/core/task_priorities.h>
