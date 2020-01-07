@@ -56,7 +56,6 @@ namespace redstone
         // create a container to hold the menu buttons
         menu_pane_container = lv_cont_create(lv_scr_act(), NULL);
         lv_obj_set_size(menu_pane_container, width, height);
-        lv_obj_set_size(menu_pane_container, 320, 40);
         lv_cont_set_layout(menu_pane_container, LV_LAYOUT_OFF);
         lv_obj_align(menu_pane_container, NULL, LV_ALIGN_IN_BOTTOM_MID, 0, 0);
         lv_cont_set_style(menu_pane_container, LV_CONT_STYLE_MAIN, &menu_style);
