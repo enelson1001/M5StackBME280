@@ -1,6 +1,6 @@
 /****************************************************************************************
  * MenuPane.h - A class that creates menu pane that contains menu buttons
- * 
+ *
  * Created on Dec. 07, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -17,7 +17,7 @@
 #pragma once
 
 #include <array>
-#include <map>
+#include <unordered_map>
 #include <memory>               // for unique_ptr
 #include "gui/IPane.h"
 #include "gui/GuiButton.h"
@@ -50,10 +50,10 @@ namespace redstone
             /// Initialize the LV Input Device Driver
             void initialize();
 
-            /// Create the Menu Bar
-            /// \param menu_btns An object that contains the gui menu buttons used in menu bar
-            /// \param width The width of the menu bar
-            /// \param height The height of the menu bar
+            /// Create the Menu Pane
+            /// \param menu_btns An object that contains the gui menu buttons used in menu pane
+            /// \param width The width of the menu pane
+            /// \param height The height of the menu pane
             //void create(lv_obj_t* parent, int width, int height);
             void create(int width, int height) override;
 
@@ -67,7 +67,8 @@ namespace redstone
             /// \param btn_id The menu button id
             /// \param gui_btn The gui button part that makes up a menu button
             /// \param hw_btn The hardware button part that makes up a menu button
-            void add_menu_button(BtnID btn_id, std::unique_ptr<GuiButton> gui_btn, std::unique_ptr<HwPushButton> hw_btn);
+            void add_menu_button(BtnID btn_id, std::unique_ptr<GuiButton> gui_btn,
+                                 std::unique_ptr<HwPushButton> hw_btn);
 
             /// Add screen location of a gui button to array
             /// \param btn_id The id of the button
@@ -75,6 +76,7 @@ namespace redstone
             void add_screen_location_of_button(int btn_id, lv_area_t btn_scr_coords);
 
         private:
+
             /// Static "C" style callback required by the Lvgl input driver
             /// \param input_device_driver The lvgl input device driver
             /// \param data The data from the input driver
@@ -94,8 +96,8 @@ namespace redstone
             lv_style_t menu_style;
             lv_obj_t* menu_pane_container;
 
-            std::map<int, std::unique_ptr<HwPushButton>> hw_buttons;
-            std::map<int, std::unique_ptr<GuiButton>> gui_buttons;
+            std::unordered_map<int, std::unique_ptr<HwPushButton>> hw_buttons;
+            std::unordered_map<int, std::unique_ptr<GuiButton>> gui_buttons;
             std::array<lv_point_t, ButtonQtyMax> screen_locations_of_buttons;
     };
 }

@@ -1,7 +1,7 @@
 /****************************************************************************************
  * IPane.h - An abstract class that panes implement to be able to be show a pane, hide a
  *            pane and create a pane
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -22,7 +22,7 @@ namespace redstone
     class IPane
     {
         public:
-            virtual ~IPane() {};
+            virtual ~IPane() {}
 
             virtual void show() = 0;
 

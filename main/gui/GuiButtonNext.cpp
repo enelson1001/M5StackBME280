@@ -25,7 +25,6 @@ namespace redstone
     // The On-Clicked button event
     void GuiButtonNext::on_clicked(lv_obj_t* btn)
     {
-        //Log::info("NEXT", "Next - On-Cliked");
         view_controller.show_next_view();
     }
 

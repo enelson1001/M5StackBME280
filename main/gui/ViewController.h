@@ -1,6 +1,6 @@
 /****************************************************************************************
  * ViewController.h - Controls which view will be displayed on the M5Stack
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)

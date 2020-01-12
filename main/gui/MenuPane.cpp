@@ -1,6 +1,6 @@
 /****************************************************************************************
  * MenuPane.h - A class that creates a menu pane that contains menu buttons
- * 
+ *
  * Created on Dec. 07, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -41,7 +41,7 @@ namespace redstone
         lv_indev_set_button_points(input_device_button, screen_locations_of_buttons.data());
     }
 
-    // Create the Menu Bar
+    // Create the Menu Pane
     void MenuPane::create(int width, int height)
     {
         Log::info(TAG, "Creating the Menu Pane");
@@ -75,8 +75,8 @@ namespace redstone
     }
 
     // Add a menu button - A menu button consist of a gui button and a hardware button.
-    // Pressing the hardware button cause the gui button to display being pressed and 
-    // create an on-clicked event when the pressed harware button is released.  The 
+    // Pressing the hardware button cause the gui button to display being pressed and
+    // create an on-clicked event when the pressed harware button is released.  The
     // debounce of the hardware button is handled in lv_indev_drv
     void MenuPane::add_menu_button(BtnID id, std::unique_ptr<GuiButton> gui_btn, std::unique_ptr<HwPushButton> hw_btn)
     {
@@ -116,8 +116,8 @@ namespace redstone
     // Button read callback for the Lvgl input driver
     bool MenuPane::button_read_cb(lv_indev_drv_t* input_device_driver, lv_indev_data_t* data)
     {
-        static int last_button = 0;
-        MenuPane* driver = static_cast<MenuPane*>(input_device_driver->user_data);
+        uint32_t last_button = 0;
+        MenuPane* driver = reinterpret_cast<MenuPane*>(input_device_driver->user_data);
         int button_pressed = driver->read_hardware_buttons();
 
         if (button_pressed >= 0)

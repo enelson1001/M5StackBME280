@@ -1,7 +1,7 @@
 /****************************************************************************************
  * CPTempGauge.cpp - A content pane that displays a temperature gauge and
  *                      humidity and pressure values
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)

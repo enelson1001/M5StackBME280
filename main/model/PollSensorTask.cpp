@@ -1,6 +1,6 @@
 /****************************************************************************************
  * PollSensorTask.cpp - A task that runs periodically to poll the BME280 for measurements
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -32,7 +32,7 @@ namespace redstone
             smooth::core::Task("PollSensorTask", 3300, 10, milliseconds(2000)),
 
             // The Task Name = "PollSensorTask"
-            // The stack size is 3200 bytes
+            // The stack size is 3300 bytes
             // The priority is set to 10
             // The tick interval is 2 sec
 
@@ -41,8 +41,7 @@ namespace redstone
                        false,                           // SCL internal pullup NOT enabled
                        GPIO_NUM_21,                     // SDA pin
                        false,                           // SDA internal pullup NOT enabled
-                       100 * 1000)                      // clock frequency - 100kHz 
-
+                       100 * 1000)                      // clock frequency - 100kHz
     {
     }
 
@@ -101,7 +100,6 @@ namespace redstone
         return res;
     }
 
-
     // The task tick event happens every 2 seconds
     void PollSensorTask::tick()
     {
@@ -113,7 +111,7 @@ namespace redstone
             envir_value.set_temperture_degree_C(temperature);
             envir_value.set_relative_humidity(humidity);
             envir_value.set_pressure_hPa(pressure);
-            
+
             Publisher<EnvirValue>::publish(envir_value);
         }
     }

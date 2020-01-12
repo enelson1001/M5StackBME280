@@ -1,6 +1,6 @@
 /****************************************************************************************
  * PollSensorTask.h - A task that runs periodically to poll the BME280 for measurements
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -36,10 +36,10 @@ namespace redstone
 
         private:
             bool init_i2c_bme280();
-            
+
             smooth::core::io::i2c::Master i2c_master;
             std::unique_ptr<smooth::application::sensor::BME280> thp_sensor{};
             bool bme280_initialized{ false };
-            EnvirValue envir_value {};
+            EnvirValue envir_value{};
     };
 }

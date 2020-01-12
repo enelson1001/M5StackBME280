@@ -1,6 +1,6 @@
 /****************************************************************************************
  * CPHourlyLog.h - A content pane that displays a hourly temperature chart
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -31,9 +31,9 @@
 
 namespace redstone
 {
-    class CPHourlyLog : public IPane, 
-                           public smooth::core::ipc::IEventListener<EnvirValue>,
-                           public smooth::core::ipc::IEventListener<TimeValue>
+    class CPHourlyLog : public IPane,
+        public smooth::core::ipc::IEventListener<EnvirValue>,
+        public smooth::core::ipc::IEventListener<TimeValue>
     {
         public:
             /// Constructor
@@ -56,7 +56,6 @@ namespace redstone
 
             /// The time event that this instance listens for
             void event(const TimeValue& ev) override;
-
 
         private:
             /// Update the chart
@@ -81,6 +80,6 @@ namespace redstone
             lv_chart_series_t* temperature_ser;
 
             float temperature;
-            int16_t current_hour{-1};
+            int16_t current_hour{ -1 };
     };
 }

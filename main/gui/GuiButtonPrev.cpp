@@ -25,7 +25,6 @@ namespace redstone
     // The On-Clicked button event
     void GuiButtonPrev::on_clicked(lv_obj_t* btn)
     {
-        //Log::info("PREV", "Previous - On-Cliked");
         view_controller.show_previous_view();
     }
 

@@ -16,7 +16,6 @@
  ***************************************************************************************/
 #include "gui/DisplayDriver.h"
 #include <esp_freertos_hooks.h>
-#include <smooth/core/io/spi/SpiDmaFixedBuffer.h>
 #include <smooth/core/logging/log.h>
 
 using namespace smooth::core::io::spi;
@@ -58,19 +57,15 @@ namespace redstone
             // initialize LittlevGL graphics library
             lv_init();
 
-            // create a small video display buffer,  used by LittlevGL to draw screen content
-            static SpiDmaFixedBuffer<uint8_t, MAX_DMA_LEN> video_display_buffer1;
-
+            // The video_display_buffer1 is used by LittlevGL to draw screen content
+            // Verify that video_display_buffer1 has been created.
             if (video_display_buffer1.is_buffer_allocated())
             {
-                static lv_color1_t* vdb1 = reinterpret_cast<lv_color1_t*>(video_display_buffer1.data());
-
                 // initialize a display buffer
-                static lv_disp_buf_t disp_buf;
+                vdb1 = reinterpret_cast<lv_color1_t*>(video_display_buffer1.data());
                 lv_disp_buf_init(&disp_buf, vdb1, NULL, MAX_DMA_LEN / COLOR_SIZE);
 
                 // initialize and register a display driver
-                lv_disp_drv_t disp_drv;
                 lv_disp_drv_init(&disp_drv);
                 disp_drv.buffer = &disp_buf;
                 disp_drv.flush_cb = ili9341_flush_cb;
@@ -177,7 +172,7 @@ namespace redstone
     // The "C" style callback required by LittlevGL
     void IRAM_ATTR DisplayDriver::ili9341_flush_cb(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t* color_map)
     {
-        DisplayDriver* driver = static_cast<DisplayDriver*>(drv->user_data);
+        DisplayDriver* driver = reinterpret_cast<DisplayDriver*>(drv->user_data);
         driver->display_drv_flush(drv, area, color_map);
     }
 

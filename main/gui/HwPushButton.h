@@ -1,6 +1,6 @@
 /****************************************************************************************
  * HwPushButton.h - A class that creates a hardware PUSHBUTTON
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -24,13 +24,13 @@ namespace redstone
     {
         public:
             /// Constructor
-            HwPushButton(gpio_num_t pin, bool pullup, bool pulldn) : hw_btn(pin, pullup, pulldn) {};
+            HwPushButton(gpio_num_t pin, bool pullup, bool pulldn) : hw_btn(pin, pullup, pulldn) {}
 
             /// Is button pressed
             bool is_button_pressed()
             {
                 return !hw_btn.read();
-            };
+            }
 
         private:
             smooth::core::io::Input hw_btn;

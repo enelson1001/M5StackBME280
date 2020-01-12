@@ -1,6 +1,6 @@
 /****************************************************************************************
  * DisplayDriver.h - A LittlevGL Display Driver for ILI9341
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -17,12 +17,12 @@
 #pragma once
 
 #include <smooth/application/display/ILI9341.h>
+#include <smooth/core/io/spi/SpiDmaFixedBuffer.h>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnarrowing"
 #include <lvgl/lvgl.h>
 #pragma GCC diagnostic pop
-
 
 namespace redstone
 {
@@ -70,5 +70,10 @@ namespace redstone
             smooth::core::io::spi::Master spi_master;
             std::unique_ptr<smooth::application::display::ILI9341> display{};
             bool ili9341_initialized{ false };
+
+            smooth::core::io::spi::SpiDmaFixedBuffer<uint8_t, MAX_DMA_LEN> video_display_buffer1{};
+            lv_color1_t* vdb1;
+            lv_disp_buf_t disp_buf;
+            lv_disp_drv_t disp_drv;
     };
 }
