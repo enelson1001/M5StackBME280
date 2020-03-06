@@ -17,16 +17,12 @@
  ***************************************************************************************/
 #pragma once
 
+#include <lvgl/lvgl.h>
 #include <memory>  // for shared pointer
 #include <smooth/core/ipc/IEventListener.h>
 #include <smooth/core/ipc/SubscribingTaskEventQueue.h>
 #include "gui/IPane.h"
 #include "model/EnvirValue.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#include <lvgl/lvgl.h>
-#pragma GCC diagnostic pop
 
 namespace redstone
 {
@@ -64,9 +60,7 @@ namespace redstone
             lv_style_t temperature_style;
             lv_style_t humd_pres_style;
             lv_style_t descriptor_style;
-
             lv_color_t needle_colors[1];
-
             lv_obj_t* content_container;
             lv_obj_t* temperature_gauge;
             lv_obj_t* temperature_value_label;

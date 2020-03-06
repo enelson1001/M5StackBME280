@@ -59,7 +59,7 @@ namespace redstone
         title_pane->create(LV_HOR_RES, 40);
         title_panes[HourlyLog] = std::move(title_pane);
 
-        title_pane = std::make_unique<TitlePane>("Time and Date");
+        title_pane = std::make_unique<TitlePane>("BME280 Time and Date");
         title_pane->create(LV_HOR_RES, 40);
         title_panes[TimeAndDate] = std::move(title_pane);
 
@@ -91,6 +91,7 @@ namespace redstone
         show_new_view();
     }
 
+    // Show new view
     void ViewController::show_new_view()
     {
         title_panes[new_view_id]->show();
@@ -98,12 +99,14 @@ namespace redstone
         current_view_id = new_view_id;
     }
 
+    // Hide current view
     void ViewController::hide_current_view()
     {
         title_panes[current_view_id]->hide();
         content_panes[current_view_id]->hide();
     }
 
+    // Show next view
     void ViewController::show_next_view()
     {
         hide_current_view();
@@ -111,6 +114,7 @@ namespace redstone
         show_new_view();
     }
 
+    // Show previous view
     void ViewController::show_previous_view()
     {
         hide_current_view();

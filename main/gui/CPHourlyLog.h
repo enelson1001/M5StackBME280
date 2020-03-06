@@ -16,6 +16,7 @@
  ***************************************************************************************/
 #pragma once
 
+#include <lvgl/lvgl.h>
 #include <string>
 #include <memory>  // for shared pointer
 #include <smooth/core/ipc/IEventListener.h>
@@ -23,11 +24,6 @@
 #include "gui/IPane.h"
 #include "model/EnvirValue.h"
 #include "sntp/TimeValue.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#include <lvgl/lvgl.h>
-#pragma GCC diagnostic pop
 
 namespace redstone
 {
@@ -64,7 +60,7 @@ namespace redstone
             /// clear the graph
             void clear_chart();
 
-            // Subscriber's queue's
+            /// Subscriber's queue's
             using SubQEnvirValue = smooth::core::ipc::SubscribingTaskEventQueue<EnvirValue>;
             std::shared_ptr<SubQEnvirValue> subr_queue_envir_value;
 
@@ -74,7 +70,6 @@ namespace redstone
             lv_style_t content_container_style;
             lv_style_t temperature_chart_style;
             lv_style_t temperature_style;
-
             lv_obj_t* content_container;
             lv_obj_t* temperature_chart;
             lv_chart_series_t* temperature_ser;

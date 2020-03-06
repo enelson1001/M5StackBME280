@@ -16,13 +16,10 @@
  ***************************************************************************************/
 #pragma once
 
+#include <lvgl/lvgl.h>
+#include <smooth/application/display/DisplaySpi.h>
 #include <smooth/application/display/ILI9341.h>
 #include <smooth/core/io/spi/SpiDmaFixedBuffer.h>
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#include <lvgl/lvgl.h>
-#pragma GCC diagnostic pop
 
 namespace redstone
 {
@@ -51,6 +48,9 @@ namespace redstone
             /// Initialize the ILI9341 display driver IC
             bool init_ILI9341();
 
+            // Set the screen rotation
+            void set_screen_rotation();
+
         private:
             // Note 1 - COLOR_SIZE is determined by the color depth chosen. LV_COLOR_DEPTH
             // is defined in LittlevGL lv_config.h file.
@@ -68,7 +68,7 @@ namespace redstone
 
             spi_host_device_t spi_host;
             smooth::core::io::spi::Master spi_master;
-            std::unique_ptr<smooth::application::display::ILI9341> display{};
+            std::unique_ptr<smooth::application::display::DisplaySpi> display{};
             bool ili9341_initialized{ false };
 
             smooth::core::io::spi::SpiDmaFixedBuffer<uint8_t, MAX_DMA_LEN> video_display_buffer1{};

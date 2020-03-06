@@ -15,10 +15,10 @@
  ***************************************************************************************/
 #pragma once
 
+// Modify with your SSID and Password
 
 //#define WIFI_SSID "YOUR_SSID"
 //#define WIFI_PASSWORD "YOUR_PASSWORD"
 
 
-#define WIFI_SSID "Bobo"
-#define WIFI_PASSWORD "fred2019"
+

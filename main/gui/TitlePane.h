@@ -16,13 +16,9 @@
  ***************************************************************************************/
 #pragma once
 
+#include <lvgl/lvgl.h>
 #include <string>
 #include "gui/IPane.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#include <lvgl/lvgl.h>
-#pragma GCC diagnostic pop
 
 namespace redstone
 {

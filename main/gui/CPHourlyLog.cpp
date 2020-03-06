@@ -39,6 +39,7 @@ namespace redstone
             // the "*this" is the class instance that will receive the events
 
             subr_queue_time_value(SubQTimeValue::create(2, task_lvgl, *this))
+
             // Create Subscriber Queue (SubQ) so this view can listen for
             // TimeValue events
             // the queue will hold up to 2 items
@@ -78,12 +79,9 @@ namespace redstone
         // create a margin for text labels
         lv_chart_set_margin(temperature_chart, 42);
 
-        // The x-axis of 219 = 2*2px (border) + 23*1px (23 inside tick marks) + 24*8px (24 spaces between tick marks,
-        // space = 8px)
-        // The y-axis of 103 = 2*2px (border) + 19*1px (19 inside tick marks) + 20*4px (20 spaces between tick marks,
-        // space = 4px)
-        // Even though size calculates out to be width=219 and height=103 you need to set size to 217,101 else points
-        // are off by 1px
+        // The x-axis of 219 = 2*2px (border) + 23*1px (23 inside tick marks) + 24*8px (24 spaces between tick marks, space = 8px)
+        // The y-axis of 103 = 2*2px (border) + 19*1px (19 inside tick marks) + 20*4px (20 spaces between tick marks, space = 4px)
+        // Even though size calculates out to be width=219 and height=103 you need to set size to 217,101 else points are off by 1px
         lv_obj_set_size(temperature_chart, 217, 101);
 
         // Offset chart to fit content pane better

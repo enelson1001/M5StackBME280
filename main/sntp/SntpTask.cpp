@@ -95,6 +95,7 @@ namespace redstone
         }
     }
 
+    // The Sntp task event 
     void SntpTask::event(const smooth::core::sntp::TimeSyncEvent& ev)
     {
         // update local time

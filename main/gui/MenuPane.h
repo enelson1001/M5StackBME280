@@ -16,17 +16,13 @@
  ***************************************************************************************/
 #pragma once
 
+#include <lvgl/lvgl.h>
 #include <array>
 #include <unordered_map>
 #include <memory>               // for unique_ptr
 #include "gui/IPane.h"
 #include "gui/GuiButton.h"
 #include "gui/HwPushButton.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#include <lvgl/lvgl.h>
-#pragma GCC diagnostic pop
 
 namespace redstone
 {

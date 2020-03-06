@@ -16,10 +16,7 @@
  ***************************************************************************************/
 #pragma once
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
 #include <lvgl/lvgl.h>
-#pragma GCC diagnostic pop
 
 namespace redstone
 {

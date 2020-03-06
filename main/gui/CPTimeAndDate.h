@@ -16,16 +16,12 @@
  ***************************************************************************************/
 #pragma once
 
+#include <lvgl/lvgl.h>
 #include <memory>  // for shared pointer
 #include <smooth/core/ipc/IEventListener.h>
 #include <smooth/core/ipc/SubscribingTaskEventQueue.h>
 #include "gui/IPane.h"
 #include "sntp/TimeValue.h"
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#include <lvgl/lvgl.h>
-#pragma GCC diagnostic pop
 
 namespace redstone
 {

@@ -21,6 +21,7 @@
 using namespace smooth::core::io::spi;
 using namespace smooth::application::display;
 using namespace smooth::core::logging;
+using namespace std::chrono;
 
 namespace redstone
 {
@@ -50,9 +51,8 @@ namespace redstone
 
         if (ili9341_initialized)
         {
-            // M5Stack requires a different setting for a portrait and landscape screen
-            // portrait = 0x68, landscape = 0x08 inverted landscape = 0xC8
-            display->set_rotation(0x08);
+            // set screen rotation
+            set_screen_rotation();
 
             // initialize LittlevGL graphics library
             lv_init();
@@ -87,18 +87,16 @@ namespace redstone
     // Initialize the ILI9341
     bool DisplayDriver::init_ILI9341()
     {
-        auto device = spi_master.create_device<ILI9341>(
+        auto device = spi_master.create_device<DisplaySpi>(
                         GPIO_NUM_14,            // chip select gpio pin
                         GPIO_NUM_27,            // data command gpio pin
-                        GPIO_NUM_33,            // reset gpio pin
-                        GPIO_NUM_32,            // backlight gpio pin
                         0,                      // spi command_bits
                         0,                      // spi address_bits,
                         0,                      // bits_between_address_and_data_phase,
                         0,                      // spi_mode = 0,
                         128,                    // spi positive_duty_cycle,
                         0,                      // spi cs_ena_posttrans,
-                        SPI_MASTER_FREQ_16M,    // spi-sck = 16MHz
+                        SPI_MASTER_FREQ_40M,    // spi-sck = 40MHz; since we are only writing to display
                         0,                      // full duplex (4-wire)
                         7,                      // queue_size,
                         true,                   // use pre-trans callback
@@ -108,9 +106,16 @@ namespace redstone
 
         if (res)
         {
-            device->reset_display();
-            res &= device->send_init_cmds();
-            device->set_back_light(true);
+            // add reset pin - pullup=false, pulldown=false, active_high=false
+            device->add_reset_pin(std::make_unique<DisplayPin>(GPIO_NUM_33, false, false, false));
+            device->hw_reset(true, milliseconds(5), milliseconds(150));  // reset chip
+
+            // add backlight pin - pullup=false, pulldown=false, active_high=true
+            device->add_backlight_pin(std::make_unique<DisplayPin>(GPIO_NUM_32, false, false, true));
+            device->set_back_light(true);  // turn on backlighting
+
+            // initialize the display
+            res &= device->send_init_cmds(ili9341_init_cmds_1.data(), ili9341_init_cmds_1.size());
             display = std::move(device);
         }
         else
@@ -119,6 +124,31 @@ namespace redstone
         }
 
         return res;
+    }
+
+    // Set screen rotation
+    void DisplayDriver::set_screen_rotation()
+    {
+        bool res = true;
+
+        // The default screen oreintation via init_cmds is portrait but the M5Stack requires
+        // a different setting for a portrait and landscape. portrait = 0x68, landscape = 0x08
+        // check the lv_config file for the screen oreintation
+        if (LV_VER_RES_MAX > LV_HOR_RES_MAX)
+        {
+            // Portrait
+            res = display->set_madctl(0x68);
+        }
+        else
+        {
+            // Landscape
+            res = display->set_madctl(0x08);
+        }
+
+        if (!res)
+        {
+            Log::error(TAG, "Setting screen rotation --- FAILED");
+        }
     }
 
     // A class instance callback to flush the display buffer and thereby write colors to screen
@@ -176,7 +206,7 @@ namespace redstone
         driver->display_drv_flush(drv, area, color_map);
     }
 
-    // The  lv_tick_task that is required by LittlevGL for internal timing
+    // The lv_tick_task that is required by LittlevGL for internal timing
     void IRAM_ATTR DisplayDriver::lv_tick_task(void)
     {
         lv_tick_inc(portTICK_RATE_MS);  // 1 ms tick_task

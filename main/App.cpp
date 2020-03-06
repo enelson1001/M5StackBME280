@@ -16,27 +16,29 @@
  ***************************************************************************************/
 
 //*****************************************************************************************************************
-// Typical output on M5Stack (after running for 1 hour; timestamp = 3606531)
+// Typical output on M5Stack (after running for 8 hours)
 //
 //  MemStat: Mem type |  8-bit free | Smallest block | Minimum free | 32-bit free | Smallest block | Minimum free
-//  MemStat: INTERNAL |      107228 |         106100 |        78360 |      158072 |         106100 |       129196
-//  MemStat:      DMA |      107228 |         106100 |        78360 |      107228 |         106100 |        78360
+//  MemStat: INTERNAL |      107072 |         105840 |        69436 |      157916 |         105840 |       120272
+//  MemStat:      DMA |      107072 |         105840 |        69436 |      107072 |         105840 |        69436
 //  MemStat:   SPIRAM |           0 |              0 |            0 |           0 |              0 |            0
 //  MemStat:
 //  MemStat:             Name |      Stack |  Min free stack |  Max used stack
-//  MemStat:         LvglTask |       4096 |             456 |            3640
-//  MemStat:         SntpTask |       3200 |             768 |            2432
-//  MemStat:   PollSensorTask |       3300 |             480 |            2820
+//  MemStat:         LvglTask |       4096 |             600 |            3496
+//  MemStat:   PollSensorTask |       3300 |             484 |            2816
+//  MemStat:         MainTask |      16384 |           12380 |            4004
 //  MemStat: SocketDispatcher |      20480 |           18228 |            2252
-//  MemStat:         MainTask |      16384 |           12444 |            3940
+//  MemStat:         SntpTask |       3200 |             832 |            2368
 //
 // Esp32-IDF version: v4.0-beta2
 // Toolchain version: xtensa-esp32-elf-gcc (crosstool-NG esp32-2019r1) 8.2.0
-// Lvgl version: v6.1.1-39-g7d25f66
-// Smooth version: master SHA1: 24a828e1
-// Bin file size: 1,246,704 bytes
+// Lvgl version: v6.1.2 - SHA1: 2ed4959
+// Smooth version: master SHA1: b4bf80b4
+// Bin file size: 1,247,408 bytes
 //******************************************************************************************************************
 #include "App.h"
+#include <chrono>
+#include <thread>
 #include <smooth/core/task_priorities.h>
 #include <smooth/core/logging/log.h>
 #include <smooth/core/SystemStatistics.h>
@@ -60,6 +62,10 @@ namespace redstone
         Log::warning(TAG, "============ Starting APP  ===========");
         Application::init();
         sntp_task.start();
+
+        // Give Sntp task time to connect to AP
+        std::this_thread::sleep_for(5s);
+
         lvgl_task.start();
         poll_sensor_task.start();
     }
