@@ -18,6 +18,10 @@
 
 #include <smooth/core/io/Input.h>
 
+#include <smooth/core/logging/log.h>
+
+using namespace smooth::core::logging;
+
 namespace redstone
 {
     class HwPushButton
@@ -29,7 +33,9 @@ namespace redstone
             /// Is button pressed
             bool is_button_pressed()
             {
-                return !hw_btn.read();
+                bool is_pin_high = hw_btn.read();
+
+                return !is_pin_high;
             }
 
         private:

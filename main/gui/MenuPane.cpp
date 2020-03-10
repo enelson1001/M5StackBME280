@@ -102,21 +102,24 @@ namespace redstone
     // Read the hardware buttons and get id of button if pressed, used by Lvgl
     int MenuPane::read_hardware_buttons()
     {
+        int btn_id = NoButtonPressed;
+
         for (auto const& x:hw_buttons)
         {
             if (x.second->is_button_pressed())
             {
-                return x.first;
+                btn_id = x.first;
+                break;
             }
         }
 
-        return NoButtonPressed;
+        return btn_id;
     }
 
     // Button read callback for the Lvgl input driver
-    bool MenuPane::button_read_cb(lv_indev_drv_t* input_device_driver, lv_indev_data_t* data)
+    bool IRAM_ATTR MenuPane::button_read_cb(lv_indev_drv_t* input_device_driver, lv_indev_data_t* data)
     {
-        uint32_t last_button = 0;
+        uint8_t last_button = 0;
         MenuPane* driver = reinterpret_cast<MenuPane*>(input_device_driver->user_data);
         int button_pressed = driver->read_hardware_buttons();
 

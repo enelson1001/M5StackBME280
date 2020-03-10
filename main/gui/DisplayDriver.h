@@ -33,9 +33,6 @@ namespace redstone
             bool initialize();
 
         private:
-            /// The lv_tick_task required by LittlevGL
-            static void lv_tick_task(void);
-
             /// The "C" style callback required by LittlevGL
             static void ili9341_flush_cb(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t* color_map);
 

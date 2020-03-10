@@ -72,7 +72,6 @@ namespace redstone
             void add_screen_location_of_button(int btn_id, lv_area_t btn_scr_coords);
 
         private:
-
             /// Static "C" style callback required by the Lvgl input driver
             /// \param input_device_driver The lvgl input device driver
             /// \param data The data from the input driver

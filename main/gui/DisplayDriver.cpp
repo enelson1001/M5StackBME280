@@ -1,6 +1,6 @@
 /****************************************************************************************
  * DisplayDriver.h - A LittlevGL Display Driver for ILI9341
- * 
+ *
  * Created on Dec. 03, 2019
  * Copyright (c) 2019 Ed Nelson (https://github.com/enelson1001)
  * Licensed under MIT License (see LICENSE file)
@@ -71,9 +71,6 @@ namespace redstone
                 disp_drv.flush_cb = ili9341_flush_cb;
                 disp_drv.user_data = this;
                 lv_disp_drv_register(&disp_drv);
-
-                // LittlevGL graphics library's tick - runs every 1ms
-                esp_register_freertos_tick_hook(lv_tick_task);
             }
             else
             {
@@ -204,11 +201,5 @@ namespace redstone
     {
         DisplayDriver* driver = reinterpret_cast<DisplayDriver*>(drv->user_data);
         driver->display_drv_flush(drv, area, color_map);
-    }
-
-    // The lv_tick_task that is required by LittlevGL for internal timing
-    void IRAM_ATTR DisplayDriver::lv_tick_task(void)
-    {
-        lv_tick_inc(portTICK_RATE_MS);  // 1 ms tick_task
     }
 }
