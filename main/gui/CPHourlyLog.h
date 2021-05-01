@@ -67,9 +67,12 @@ namespace redstone
             using SubQTimeValue = smooth::core::ipc::SubscribingTaskEventQueue<TimeValue>;
             std::shared_ptr<SubQTimeValue> subr_queue_time_value;
 
+            lv_style_t plain_style;
             lv_style_t content_container_style;
-            lv_style_t temperature_chart_style;
-            lv_style_t temperature_style;
+            lv_style_t chart_bg_style;
+            lv_style_t series_bg_style;
+            lv_style_t series_style;
+
             lv_obj_t* content_container;
             lv_obj_t* temperature_chart;
             lv_chart_series_t* temperature_ser;

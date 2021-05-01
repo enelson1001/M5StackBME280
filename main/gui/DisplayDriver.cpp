@@ -29,16 +29,7 @@ namespace redstone
     static const char* TAG = "DisplayDriver";
 
     // Constructor
-    DisplayDriver::DisplayDriver() :
-            spi_host(VSPI_HOST),            // Use VSPI as host
-
-            spi_master(
-                spi_host,                   // host VSPI
-                DMA_1,                      // use DMA
-                GPIO_NUM_23,                // mosi gpio pin
-                GPIO_NUM_19,                // miso gpio pin  (full duplex)
-                GPIO_NUM_18,                // clock gpio pin
-                MAX_DMA_LEN)                // max transfer size
+    DisplayDriver::DisplayDriver()
     {
     }
 
@@ -47,9 +38,9 @@ namespace redstone
     {
         Log::info(TAG, "Initializing Lvgl Display Driver ........");
 
-        ili9341_initialized = init_ILI9341();
+        lcd_display_initialized = init_lcd_display();
 
-        if (ili9341_initialized)
+        if (lcd_display_initialized)
         {
             // set screen rotation
             set_screen_rotation();
@@ -74,17 +65,25 @@ namespace redstone
             }
             else
             {
-                ili9341_initialized = false;
+                lcd_display_initialized = false;
             }
         }
 
-        return ili9341_initialized;
+        return lcd_display_initialized;
     }
 
     // Initialize the ILI9341
-    bool DisplayDriver::init_ILI9341()
+    bool DisplayDriver::init_lcd_display()
     {
-        auto device = spi_master.create_device<DisplaySpi>(
+        // initialize spi-bus-master
+        Master::initialize(VSPI_HOST,
+                        SPI_DMA_Channel::DMA_1,        // use DMA
+                        GPIO_NUM_23,                   // mosi gpio pin
+                        GPIO_NUM_19,                   // miso gpio pin  (full duplex)
+                        GPIO_NUM_18,                   // clock gpio pin
+                        MAX_DMA_LEN);                  // max transfer size
+
+        auto device = Master::create_device<LCDSpi>(
                         GPIO_NUM_14,            // chip select gpio pin
                         GPIO_NUM_27,            // data command gpio pin
                         0,                      // spi command_bits
@@ -99,9 +98,9 @@ namespace redstone
                         true,                   // use pre-trans callback
                         true);                  // use post-trans callback
 
-        bool res = device->init(spi_host);
+        bool lcdspi_device_initialized = device->init(VSPI_HOST);
 
-        if (res)
+        if (lcdspi_device_initialized)
         {
             // add reset pin - pullup=false, pulldown=false, active_high=false
             device->add_reset_pin(std::make_unique<DisplayPin>(GPIO_NUM_33, false, false, false));
@@ -110,17 +109,22 @@ namespace redstone
             // add backlight pin - pullup=false, pulldown=false, active_high=true
             device->add_backlight_pin(std::make_unique<DisplayPin>(GPIO_NUM_32, false, false, true));
             device->set_back_light(true);  // turn on backlighting
-
-            // initialize the display
-            res &= device->send_init_cmds(ili9341_init_cmds_1.data(), ili9341_init_cmds_1.size());
-            display = std::move(device);
         }
         else
         {
-            Log::error(TAG, "Initializing of SPI Device: ILI9341 --- FAILED");
+            Log::error(TAG, "Initializing of LCDspi Device: FAILED");
         }
 
-        return res;
+        // initialize the display
+        bool ili9341_initialized = device->send_init_cmds(ili9341_init_cmds_1.data(), ili9341_init_cmds_1.size());
+        lcd_display = std::move(device);
+
+        if (!ili9341_initialized)
+        {
+            Log::error(TAG, "Initializing of ILI9341 --- FAILED");
+        }
+
+        return lcdspi_device_initialized & ili9341_initialized;
     }
 
     // Set screen rotation
@@ -134,12 +138,12 @@ namespace redstone
         if (LV_VER_RES_MAX > LV_HOR_RES_MAX)
         {
             // Portrait
-            res = display->set_madctl(0x68);
+            res = lcd_display->set_madctl(0x68);
         }
         else
         {
             // Landscape
-            res = display->set_madctl(0x08);
+            res = lcd_display->set_madctl(0x08);
         }
 
         if (!res)
@@ -166,8 +170,8 @@ namespace redstone
         // Drawing area that has a height of LINES_TO_SEND
         while (number_of_dma_blocks_with_complete_lines_to_send--)
         {
-            display->send_lines(x1, start_row, x2, end_row, reinterpret_cast<uint8_t*>(color_map), MAX_DMA_LEN);
-            display->wait_for_send_lines_to_finish();
+            lcd_display->send_lines(x1, start_row, x2, end_row, reinterpret_cast<uint8_t*>(color_map), MAX_DMA_LEN);
+            lcd_display->wait_for_send_lines_to_finish();
 
             // color_map is pointer to type lv_color_t were the data type is based on color size so the
             // color_map pointer may have a data type of uint8_t or uint16_t or uint32_t.  MAX_DMA_LEN is
@@ -184,15 +188,15 @@ namespace redstone
         if (number_of_bytes_in_not_complete_lines_to_send)
         {
             end_row = y2;
-            display->send_lines(x1, start_row, x2, end_row,
+            lcd_display->send_lines(x1, start_row, x2, end_row,
                                 reinterpret_cast<uint8_t*>(color_map),
                                 number_of_bytes_in_not_complete_lines_to_send);
 
-            display->wait_for_send_lines_to_finish();
+            lcd_display->wait_for_send_lines_to_finish();
         }
 
         // Inform the lvgl graphics library that we are ready for flushing the VDB buffer
-        lv_disp_t* disp = lv_refr_get_disp_refreshing();
+        lv_disp_t* disp = _lv_refr_get_disp_refreshing();
         lv_disp_flush_ready(&disp->driver);
     }
 

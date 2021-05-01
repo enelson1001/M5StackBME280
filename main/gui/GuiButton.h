@@ -54,6 +54,9 @@ namespace redstone
             /// \param return Returns the created lvgl button object
             virtual lv_obj_t* create(lv_obj_t* parent) = 0;
 
+            /// Create button style
+            void create_button_style();
+
         protected:
             /// The ON Clicked Event - button pressed and released
             /// This function must be implemented by the child
@@ -63,5 +66,7 @@ namespace redstone
             lv_obj_t* create_btn(lv_obj_t* parent);
 
             lv_obj_t* gui_button;
+
+            lv_style_t gui_btn_style;
     };
 }

@@ -20,6 +20,8 @@
 #include "sntp/SntpTask.h"
 #include "gui/LvglTask.h"
 #include "model/PollSensorTask.h"
+#include "storage/DataStore.h"
+#include "network/Wifi.h"
 
 namespace redstone
 {
@@ -33,6 +35,8 @@ namespace redstone
             void tick() override;
 
         private:
+            DataStore data_store;
+            Wifi wifi;
             LvglTask lvgl_task{};
             PollSensorTask poll_sensor_task{};
             SntpTask sntp_task;

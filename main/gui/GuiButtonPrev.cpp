@@ -33,21 +33,14 @@ namespace redstone
     {
         // create the button
         lv_obj_t* btn = create_btn(parent);
+        lv_obj_set_size(btn, 60, 24);
+        lv_obj_add_style(btn, LV_BTN_PART_MAIN, &gui_btn_style);
 
         // sets the GuiButton callback to call this on_clicked function
         btn->user_data = this;
 
-        // create style for button label
-        lv_style_copy(&gui_btn_style, &lv_style_plain);
-        gui_btn_style.text.font = &lv_font_roboto_12;
-        gui_btn_style.text.color = LV_COLOR_WHITE;
-
-        // set the size of the button
-        lv_obj_set_size(btn, 60, 24);
-
         // set the text for the button label
         lv_obj_t* label = lv_label_create(btn, NULL);
-        lv_obj_set_style(label, &gui_btn_style);
         lv_label_set_text(label, "PREV");
 
         return btn;

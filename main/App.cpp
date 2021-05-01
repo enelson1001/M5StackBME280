@@ -43,6 +43,9 @@
 
 using namespace smooth::core;
 using namespace std::chrono;
+using namespace smooth::core::io::spi;
+using namespace smooth::core::filesystem;
+using namespace smooth::application::sensor;
 
 namespace redstone
 {
@@ -50,7 +53,7 @@ namespace redstone
     static const char* TAG = "APP";
 
     // Constructor
-    App::App() : Application(APPLICATION_BASE_PRIO, seconds(60)), sntp_task(*this)
+    App::App() : Application(APPLICATION_BASE_PRIO, seconds(60)), wifi(*this), sntp_task(*this)
     {
     }
 
@@ -59,9 +62,26 @@ namespace redstone
     {
         Log::warning(TAG, "============ Starting APP  ===========");
         Application::init();
-        sntp_task.start();
         lvgl_task.start();
+
+        // allow lvgl task time to initialize the spi bus
+        std::this_thread::sleep_for(seconds{ 2 });
+
+        // initialize sdcard
+        data_store.init();
+
+        // allow sdcard to be initialized
+        std::this_thread::sleep_for(seconds{ 3 });
+        wifi.set_wifi_cred(data_store.read_nth_line("wifi_cred.txt", 0), data_store.read_nth_line("wifi_cred.txt", 1));
+        wifi.start_wifi();
         poll_sensor_task.start();
+        sntp_task.start();
+
+        // allow time for wifi to connect
+        std::this_thread::sleep_for(seconds{ 10 });
+        wifi.show_network_info();
+        wifi.show_local_mac_address();
+        wifi.show_wifi_information();
     }
 
     // Tick event happens every 60 seconds

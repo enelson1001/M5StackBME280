@@ -44,64 +44,94 @@ namespace redstone
     {
         Log::info(TAG, "Creating CPTempGauge");
 
-        // create style for the content container
-        lv_style_copy(&content_container_style, &lv_style_plain);
-        content_container_style.body.main_color = lv_color_hex3(0xaaa);
-        content_container_style.body.grad_color = lv_color_hex3(0xaaa);
+        // create a plain style
+        lv_style_init(&plain_style);
+        lv_style_set_pad_top(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_pad_bottom(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_pad_left(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_pad_right(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_line_opa(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_pad_inner(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_margin_all(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_border_width(&plain_style, LV_STATE_DEFAULT, 0);
+        lv_style_set_radius(&plain_style, LV_STATE_DEFAULT, 0);
+
+        // create a style for the content container
+        lv_style_copy(&content_container_style, &plain_style);
+        lv_style_set_bg_color(&content_container_style, LV_STATE_DEFAULT, lv_color_hex3(0xaaa));
 
         // create style for temperature value
-        lv_style_copy(&temperature_style, &lv_style_pretty);
-        temperature_style.text.font = &lv_font_roboto_28;
-        temperature_style.text.color = lv_color_hex3(0xC00);
+        lv_style_init(&temperature_style);
+        lv_style_set_text_font(&temperature_style, LV_STATE_DEFAULT, &lv_font_montserrat_28);
+        lv_style_set_text_color(&temperature_style, LV_STATE_DEFAULT, lv_color_hex3(0xC00));
 
         // create style for humidity and pressure values
-        lv_style_copy(&humd_pres_style, &lv_style_pretty);
-        humd_pres_style.text.font = &lv_font_roboto_16;
-        humd_pres_style.text.color = lv_color_hex3(0x030);
+        lv_style_init(&humd_pres_style);
+        lv_style_set_text_font(&humd_pres_style, LV_STATE_DEFAULT, &lv_font_montserrat_16);
+        lv_style_set_text_color(&humd_pres_style, LV_STATE_DEFAULT, lv_color_hex3(0x030));
 
         // create a content container
         content_container = lv_cont_create(lv_scr_act(), NULL);
         lv_obj_set_size(content_container, width, height);
         lv_obj_align(content_container, NULL, LV_ALIGN_CENTER, 0, 0);
-        lv_cont_set_style(content_container, LV_CONT_STYLE_MAIN, &content_container_style);
+        lv_obj_add_style(content_container, LV_CONT_PART_MAIN, &content_container_style);
         lv_obj_set_hidden(content_container, true);
 
-        // create style for the temperature gauge
-        lv_style_copy(&gauge_style, &lv_style_pretty);
-        gauge_style.body.main_color = LV_COLOR_BLACK;       // Line color at the beginning
-        gauge_style.body.grad_color = LV_COLOR_BLACK;       // Line color at the end*
-        gauge_style.body.padding.left = 10;                 // Scale line length
-        gauge_style.body.padding.inner = 8;                 // Scale label padding
-        gauge_style.body.border.color = LV_COLOR_GREEN;     // Needle middle circle color
-        gauge_style.line.width = 3;
-        gauge_style.text.font = &lv_font_roboto_16;         // Gauge text font
-        gauge_style.text.color = LV_COLOR_WHITE;            // Gauge text color
-        gauge_style.line.color = LV_COLOR_BLACK;            // Line color
+        // create styles for the temperature gauge
+        lv_style_init(&gauge_style);
+        lv_style_set_bg_color(&gauge_style, LV_STATE_DEFAULT, lv_color_hex3(0xaaa));    // Gauge background color
+        lv_style_set_border_color(&gauge_style, LV_STATE_DEFAULT, lv_color_hex3(0xaaa));// Gauge border color
+        lv_style_set_pad_left(&gauge_style, LV_STATE_DEFAULT, 10);                      // Gauge outside padding
+        lv_style_set_pad_inner(&gauge_style, LV_STATE_DEFAULT, 12);                     // Scale label padding
+        lv_style_set_text_font(&gauge_style, LV_STATE_DEFAULT, &lv_font_montserrat_12); // Scale label font size
+        lv_style_set_text_color(&gauge_style, LV_STATE_DEFAULT, LV_COLOR_BLACK);        // Scale label color
+        lv_style_set_line_color(&gauge_style, LV_STATE_DEFAULT, LV_COLOR_YELLOW);       // Scale minor line color
+        lv_style_set_scale_end_color(&gauge_style, LV_STATE_DEFAULT, LV_COLOR_YELLOW);  // Scale minor end color
+        lv_style_set_scale_grad_color(&gauge_style, LV_STATE_DEFAULT, LV_COLOR_YELLOW); // Scale minor grad color
+        lv_style_set_line_width(&gauge_style, LV_STATE_DEFAULT, 2);                     // Scale minor line width
+        lv_style_set_scale_end_line_width(&gauge_style, LV_STATE_DEFAULT, 2);           // Scale minor line length
+        lv_style_set_scale_end_border_width(&gauge_style, LV_STATE_DEFAULT, 0);         // Scale minor - no end border
+
+        lv_style_init(&needle_style);
+        lv_style_set_line_width(&needle_style, LV_STATE_DEFAULT, 3);                    // Needle line width
+        lv_style_set_bg_color(&needle_style, LV_STATE_DEFAULT, LV_COLOR_YELLOW);        // Needle center circle color
+
+        lv_style_init(&major_style);
+        lv_style_set_line_color(&major_style, LV_STATE_DEFAULT, LV_COLOR_BLACK);        // Scale major line color
+        lv_style_set_scale_end_color(&major_style, LV_STATE_DEFAULT, LV_COLOR_BLACK);   // Scale major end color
+        lv_style_set_scale_grad_color(&major_style, LV_STATE_DEFAULT, LV_COLOR_BLACK);  // Scale major grad color
+        lv_style_set_line_width(&major_style, LV_STATE_DEFAULT, 4);                     // Scale major line width
+        lv_style_set_scale_end_line_width(&major_style, LV_STATE_DEFAULT, 4);           // Scale major line length
+        lv_style_set_scale_end_border_width(&major_style, LV_STATE_DEFAULT, 0);         // Scale major - no end border
 
         // set the color of the needle
         needle_colors[0] = lv_color_hex3(0xC00);
 
         // create gauge
         temperature_gauge = lv_gauge_create(content_container, NULL);
-        lv_gauge_set_style(temperature_gauge, LV_GAUGE_STYLE_MAIN, &gauge_style);
+        lv_obj_add_style(temperature_gauge, LV_GAUGE_PART_MAIN, &gauge_style);
+        lv_obj_add_style(temperature_gauge, LV_GAUGE_PART_NEEDLE, &needle_style);
+        lv_obj_add_style(temperature_gauge, LV_GAUGE_PART_MAJOR, &major_style);
         lv_gauge_set_needle_count(temperature_gauge, 1, needle_colors);
         lv_gauge_set_range(temperature_gauge, 32, 110);
         lv_obj_set_size(temperature_gauge, 150, 150);
-        lv_obj_align(temperature_gauge, NULL, LV_ALIGN_CENTER, 0, 10);
+
+        //lv_obj_align(temperature_gauge, NULL, LV_ALIGN_CENTER, 0, 10);
+        lv_obj_align(temperature_gauge, NULL, LV_ALIGN_CENTER, 0, -10);
 
         // create a dynamic label for temperature measurement value
         temperature_value_label = lv_label_create(content_container, NULL);
-        lv_obj_set_style(temperature_value_label, &temperature_style);
+        lv_obj_add_style(temperature_value_label, LV_LABEL_PART_MAIN, &temperature_style);
         lv_label_set_text(temperature_value_label, "");
 
         // create a dynamic label for humidity measurement value
         humidity_value_label = lv_label_create(content_container, NULL);
-        lv_obj_set_style(humidity_value_label, &humd_pres_style);
+        lv_obj_add_style(humidity_value_label, LV_LABEL_PART_MAIN, &humd_pres_style);
         lv_label_set_text(humidity_value_label, "");
 
         // create a dynamic label for pressure measurement value
         pressure_value_label = lv_label_create(content_container, NULL);
-        lv_obj_set_style(pressure_value_label, &humd_pres_style);
+        lv_obj_add_style(pressure_value_label, LV_LABEL_PART_MAIN, &humd_pres_style);
         lv_label_set_text(pressure_value_label, "");
     }
 

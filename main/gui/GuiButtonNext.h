@@ -37,6 +37,5 @@ namespace redstone
 
         private:
             ViewController& view_controller;
-            lv_style_t gui_btn_style;
     };
 }
