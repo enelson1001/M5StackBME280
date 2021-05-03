@@ -19,22 +19,22 @@
 // Typical output on M5Stack (after running for 8 hours)
 //
 //  MemStat: Mem type |  8-bit free | Smallest block | Minimum free | 32-bit free | Smallest block | Minimum free
-//  MemStat: INTERNAL |      107072 |         105840 |        69436 |      157916 |         105840 |       120272
-//  MemStat:      DMA |      107072 |         105840 |        69436 |      107072 |         105840 |        69436
+//  MemStat: INTERNAL |       68496 |          32768 |        12432 |       96588 |          32768 |        40512
+//  MemStat:      DMA |       68496 |          32768 |        12432 |       68496 |          32768 |        12432
 //  MemStat:   SPIRAM |           0 |              0 |            0 |           0 |              0 |            0
 //  MemStat:
 //  MemStat:             Name |      Stack |  Min free stack |  Max used stack
-//  MemStat:         LvglTask |       4096 |             592 |            3504
-//  MemStat:         SntpTask |       3200 |             776 |            2424
-//  MemStat:   PollSensorTask |       3300 |             480 |            2820
-//  MemStat: SocketDispatcher |      20480 |           18220 |            2260
-//  MemStat:         MainTask |      16384 |           12404 |            3980
+//  MemStat:         MainTask |      16384 |           12068 |            4316
+//  MemStat:   PollSensorTask |       3300 |             300 |            3000
+//  MemStat:         SntpTask |       3200 |             920 |            2280
+//  MemStat: SocketDispatcher |      20480 |           18028 |            2452
+//  MemStat:         LvglTask |       4096 |             476 |            3620
 //
-// Esp32-IDF version: v4.0-beta2
-// Toolchain version: xtensa-esp32-elf-gcc (crosstool-NG esp32-2019r1) 8.2.0
-// Lvgl version: v6.1.2 - SHA1: 2ed4959
-// Smooth version: master SHA1: b4bf80b4
-// Bin file size: 1,247,152 bytes
+// Esp32-IDF version: v4.3-beta3 - commit e9cf9e2 - April 14, 2021
+// Toolchain version: esp-2020r3-8.4.0/xtensa-esp32-elf
+// Lvgl version:  v7.11.0 - commit: ec9de51, March, 2021
+// Smooth version: master - commit: 5578b8b, April 15, 2021
+// Bin file size: 1,524,272 bytes
 //******************************************************************************************************************
 #include "App.h"
 #include <smooth/core/task_priorities.h>
